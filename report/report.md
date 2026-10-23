@@ -12,6 +12,10 @@ We revisit the repeated-pricing environment of Calvano et al. (2020). In it, ind
 
 The code includes a Claude-based LLM-agent harness for the same market, interventions and probe. We did not run it during the sprint because no API key was available.
 
+![summary](../results/figures/summary.png)
+
+*Figure 1. Overview. (A) Collusion left under each rule; (B) after swapping a bot; (C) how well each kind of evidence identifies collusion when colluders and non-colluders charge the same prices.*
+
 ## 1. Introduction
 
 Pricing algorithms can learn to collude without communicating and without being designed to (Calvano et al., 2020; Klein, 2021). LLM agents do the same in simple oligopolies (Fish et al., 2024). Collusion detection also extends to messages between agents (Motwani et al., 2024; *Audit the Whisper*, 2025). The sprint asks when collusion emerges, how it is carried, how an auditor can tell it from coincidence, and how a defender can break it.
@@ -118,13 +122,38 @@ At equal price levels:
 
 **What should count as evidence?** A convincing case needs (a) supracompetitive prices, plus (b) evidence that a firm's prices *respond* to rival price cuts in a way that makes those cuts unprofitable. Parallel price movements and high levels, the usual observable "plus factors", do not separate collusion from coincidence when price levels are comparable.
 
+### 3.5 LLM agents: protocol and pre-registered predictions (not yet run)
+
+`experiments/run_llm.py` runs Claude pricing agents (after Fish et al., 2024) in the same market. There are four conditions × 5 seeds × 100 periods, and firm 0 is forced to its static best response at period 80:
+
+| Condition | What the agents see |
+|---|---|
+| `full` | full price history (baseline) |
+| `noisy` | rival prices replaced by random values 30% of the time |
+| `own` | no rival prices (blind) |
+| `comm` | full history plus a free-text message channel between firms (an overt carrier) |
+
+`experiments/analyze_llm.py` computes the same metrics as the Q-learning study (Δ, punishment, deviation gain, parallel pricing, lead–lag). It also flags messages containing coordination language. The pipeline was verified end-to-end with a scripted trigger-strategy bot (`--backend fake`); those outputs are pipeline tests, not results.
+
+We record our predictions here **before** running, so the LLM study can confirm or refute them:
+
+1. **P1:** `full` reaches Δ > 0.3. Supracompetitive pricing appears without instructions to collude, as in Fish et al.
+2. **P2:** `own` (blind) gives a clearly lower Δ than `full`, mirroring the Q-learning result that rival information is the carrier.
+3. **P3:** `noisy` lies between `own` and `full`.
+4. **P4:** `comm` gives a higher Δ than `full`, and some messages contain explicit coordination language detectable by a keyword auditor.
+5. **P5:** In `full`, the forced deviation is followed by a rival price cut (punishment < 0), unlike `own`.
+
 ## 4. Discussion and limitations
 
 * **Toy market, tabular agents.** The findings are for Q-learning with one-period memory, 15 prices and symmetric firms. Deep-RL or LLM agents with longer memory may need more than one bit, or may route around delay by conditioning on longer histories.
 * **Convergence under noise.** With observation noise or jitter, many sessions never reach the strict convergence criterion: 0% for jitter and 50–94% for noise. Those sessions are evaluated after 3·10⁶ periods with exploration fully decayed. Their Δ is the outcome of continuing play, not of a fixed point.
 * **Labels are about capacity.** "Collusive" means agents that *can* run a punishment scheme. The short-horizon (γ = 0.5) control can partially punish (−0.13), so it is an imperfect negative. We report the myopic-only comparisons separately for that reason.
 * **The best detector assumes randomness.** The lead–lag detector relies on 5% random price noise at audit time. In practice an auditor could induce this, for example with a sandboxed replay or mandated A/B price experimentation. The active probe needs the ability to act in the market, or a faithful simulator.
-* **No LLM results.** `collusion_lab/llm_agents.py` runs Claude agents in the same market with the same observation interventions (`--obs own|noisy`), an optional message channel (`--comm`, an overt carrier for Track 3), and the same forced-deviation probe (`--probe-at`). We could not run it in the sprint sandbox, which had no API key. The natural next step is to test whether LLM agents' collusion is equally insensitive to coarsening and equally fragile to delay, and whether lead–lag auditing transfers.
+* **No LLM results yet.** The LLM study (Section 3.5) is fully implemented and pipeline-tested, but it has not been run because no API key was available during the sprint.
+
+### Ethics and dual use
+
+Everything here concerns *detecting and disrupting* collusion. The dual-use risk is that the same results describe what a colluding system could do to evade oversight. For example, it could keep its coordination signal coarse (it survives rounding), or keep its prices deterministic (that starves passive lead–lag audits of the variation they need). We judge this risk to be low: these properties are already known from the algorithmic-pricing literature, the agents are toy tabular learners, and the main practical implication favours auditors. Regulators can *induce* the price variation that makes reaction structure observable, instead of relying on price levels or parallelism. We release no tooling aimed at real markets.
 
 ## 5. Conclusion
 
@@ -147,6 +176,10 @@ For learned tacit collusion in this standard market, the price signal is the car
 pip install -r requirements.txt
 python -m experiments.run_all     # about 3,600 learning sessions; about 15 min on 4 cores
 python -m experiments.analyze     # results/summary.md + results/figures/
+
+# LLM study (needs ANTHROPIC_API_KEY)
+python -m experiments.run_llm     # 4 conditions x 5 seeds x 100 periods = 4,000 model calls; resumable
+python -m experiments.analyze_llm # results/llm_summary.md + results/figures/llm_paths.png
 ```
 
 All randomness is seeded. A session with a given configuration and seed is deterministic (tested in `tests/test_core.py`).

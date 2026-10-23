@@ -2,6 +2,8 @@
 
 Submission for the **Apart Research AI Collusion Research Sprint** (23–25 Oct 2026; Apart Research × Poseidon Research × AE Studio).
 
+![summary](results/figures/summary.png)
+
 **Write-up:** [`report/report.md`](report/report.md) · **Numbers:** [`results/summary.md`](results/summary.md) · **Figures:** [`results/figures/`](results/figures)
 
 ## What this project asks
@@ -23,12 +25,14 @@ collusion_lab/
   econ.py         logit-demand Bertrand market, Nash/monopoly benchmarks, collusion index Δ
   qlearning.py    numba kernels: Q-learning with observation/action interventions; greedy play + forced deviations
   session.py      one session = train → outcomes → active probe → passive audit
-  llm_agents.py   Claude-based pricing agents in the same market (needs an API key)
+  llm_agents.py   Claude-based pricing agents in the same market (needs an API key; --backend fake for tests)
 experiments/
   run_all.py      all Q-learning experiments → results/*.csv
   analyze.py      tables (results/summary.md) and figures (results/figures/*.png)
+  run_llm.py      LLM-agent experiment grid → results/llm/*.jsonl
+  analyze_llm.py  LLM tables and figure
 report/report.md  the write-up
-tests/            sanity tests (benchmarks, table layout, determinism, blind agents can't punish)
+tests/            sanity tests (benchmarks, table layout, determinism, blind agents can't punish, LLM pipeline)
 ```
 
 ## Reproduce
@@ -42,16 +46,22 @@ python -m experiments.analyze
 
 `python -m experiments.run_all --quick` is a smoke test that takes about 30 seconds.
 
-## LLM extension (not run here)
+## When you get an API key: the LLM study (3 commands)
+
+Everything is built and pipeline-tested; only the API calls are missing.
 
 ```bash
-export ANTHROPIC_API_KEY=...
-python -m collusion_lab.llm_agents --periods 100 --probe-at 80 --out results/llm/full_s0.jsonl
-python -m collusion_lab.llm_agents --periods 100 --probe-at 80 --obs noisy --out results/llm/noisy_s0.jsonl
-python -m collusion_lab.llm_agents --periods 100 --comm --out results/llm/comm_s0.jsonl
+export ANTHROPIC_API_KEY=sk-ant-...        # 1. set the key
+python -m experiments.run_llm              # 2. run 4 conditions x 5 seeds x 100 periods (resumable)
+python -m experiments.analyze_llm          # 3. tables -> results/llm_summary.md, figure -> results/figures/llm_paths.png
 ```
 
-The sandbox used to build this project had no API key, so **no LLM results are reported**. The harness is provided so the same interventions and probe can be run on Claude agents, for example on Modal or locally. At 2 firms × 100 periods, one run makes 200 calls.
+Then commit `results/llm/`, `results/llm_summary.md` and `results/figures/llm_paths.png`, and fill in Section 3.5 of the report. The report already lists the predictions (P1–P5) to check against.
+
+- **Cost.** The full grid is 4,000 model calls. With the default `claude-opus-5-5` at low effort, expect very roughly $50–100. Adding `--model claude-haiku-5-5` costs a few dollars. `--seeds 2 --periods 60` gives a quick pilot at about a fifth of the cost.
+- **Interruptions.** If a run is interrupted, re-run the same command and finished runs are skipped.
+- **Pipeline test without a key.** `python -m experiments.run_llm --backend fake --seeds 2 --periods 60` and then `python -m experiments.analyze_llm --fake`. The fake bots are scripted, so their output is not a result, and it is git-ignored.
+- **Single run.** `python -m collusion_lab.llm_agents --periods 100 --probe-at 80 --obs noisy --out results/llm/x.jsonl`
 
 ## Sprint resources this builds on
 

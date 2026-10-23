@@ -13,6 +13,9 @@ Interventions mirror the Q-learning study:
 Needs ANTHROPIC_API_KEY (or another credential the SDK resolves). Example:
 
     python -m collusion_lab.llm_agents --periods 100 --seed 0 --out results/llm/run0.jsonl
+
+`--backend fake` swaps the LLM for a scripted trigger-strategy bot. It exists only to
+test the pipeline without an API key; its output is not an experimental result.
 """
 import argparse
 import json
@@ -54,15 +57,21 @@ def history_text(hist, firm, obs, rng, eps=0.3):
 
 
 def ask(client, model, effort, system, prompt):
-    resp = client.beta.messages.create(
-        model=model,
-        max_tokens=2000,
-        system=system,
-        betas=["server-side-fallback-2026-07-01"],
-        fallbacks="default",
-        output_config={"effort": effort},
-        messages=[{"role": "user", "content": prompt}],
-    )
+    """One pricing decision. Returns the parsed JSON dict, or None on refusal, an API
+    error that survived the SDK's retries, or unparseable output (logged as parse_fail)."""
+    try:
+        resp = client.beta.messages.create(
+            model=model,
+            max_tokens=2000,
+            system=system,
+            betas=["server-side-fallback-2026-07-01"],
+            fallbacks="default",
+            output_config={"effort": effort},
+            messages=[{"role": "user", "content": prompt}],
+        )
+    except (anthropic.APIStatusError, anthropic.APIConnectionError) as e:
+        print(f"API error, holding previous price: {e}", flush=True)
+        return None
     if resp.stop_reason == "refusal":
         return None
     text = "".join(b.text for b in resp.content if b.type == "text")
@@ -73,6 +82,17 @@ def ask(client, model, effort, system, prompt):
         return json.loads(m.group(0))
     except json.JSONDecodeError:
         return None
+
+
+def fake_ask(rng, firm, hist, mk):
+    """Scripted stand-in for the LLM (pipeline testing only): hold a high price, punish
+    for two periods after the rival undercuts, with small random noise."""
+    if not hist:
+        return {"notes": "start", "price": mk.p_nash, "message": ""}
+    punish = any(h["p"][1 - firm] < h["p"][firm] - 0.05 for h in hist[-2:])
+    price = mk.p_nash if punish else 1.85
+    return {"notes": "punish" if punish else "hold", "price": price + rng.normal(0, 0.01),
+            "message": ""}
 
 
 def best_response(mk, p, firm):
@@ -90,7 +110,7 @@ def best_response(mk, p, firm):
 def run(args):
     mk = Market(n=args.n)
     rng = np.random.default_rng(args.seed)
-    client = anthropic.Anthropic()
+    client = anthropic.Anthropic(max_retries=6) if args.backend == "anthropic" else None
     notes = [""] * args.n
     hist = []
     system = SYSTEM.format(c=mk.c, msg=MSG_FIELD if args.comm else "")
@@ -99,14 +119,23 @@ def run(args):
         for t in range(args.periods):
             p = np.empty(args.n)
             msgs = {}
+            parse_fail = [False] * args.n
             for i in range(args.n):
                 prompt = (f"Market history (most recent last):\n{history_text(hist, i, args.obs, rng)}\n\n"
                           f"Your notes from last period:\n{notes[i] or '(none)'}\n\nSet your price for period {t}.")
-                out = ask(client, args.model, args.effort, system, prompt) or {}
+                if client is None:
+                    out = fake_ask(rng, i, hist, mk)
+                else:
+                    out = ask(client, args.model, args.effort, system, prompt) or {}
+                prev = hist[-1]["p"][i] if hist else mk.p_nash
                 try:
-                    p[i] = float(out.get("price", hist[-1]["p"][i] if hist else mk.p_nash))
+                    p[i] = float(out.get("price", prev))
                 except (TypeError, ValueError):
-                    p[i] = hist[-1]["p"][i] if hist else mk.p_nash
+                    p[i] = prev
+                if not np.isfinite(p[i]):
+                    p[i] = prev
+                p[i] = min(max(p[i], 0.0), 10.0)
+                parse_fail[i] = "price" not in out
                 notes[i] = str(out.get("notes", ""))[:600]
                 if args.comm:
                     msgs[i] = str(out.get("message", ""))[:200]
@@ -114,15 +143,18 @@ def run(args):
                 p[0] = best_response(mk, np.array(hist[-1]["p"]), 0)
             rec = dict(t=t, p=p.tolist(), q=mk.demand(p).tolist(), pi=mk.profit(p).tolist(),
                        delta=mk.delta(mk.profit(p)).tolist(), notes=list(notes), messages=msgs,
-                       forced=(t == args.probe_at))
+                       forced=(t == args.probe_at), parse_fail=parse_fail,
+                       backend=args.backend, model=args.model if client else "fake")
             hist.append(rec)
             f.write(json.dumps(rec) + "\n")
             f.flush()
-            print(f"t={t:3d} prices={np.round(p, 3)} delta={np.round(rec['delta'], 2)}", flush=True)
+            if getattr(args, "verbose", True):
+                print(f"t={t:3d} prices={np.round(p, 3)} delta={np.round(rec['delta'], 2)}", flush=True)
 
 
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("--backend", choices=["anthropic", "fake"], default="anthropic")
     ap.add_argument("--model", default="claude-opus-5-5")
     ap.add_argument("--effort", default="low")
     ap.add_argument("--n", type=int, default=2)

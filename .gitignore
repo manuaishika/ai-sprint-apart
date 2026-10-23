@@ -1,4 +1,7 @@
 __pycache__/
 *.pyc
 .pytest_cache/
-results/llm/
+# pipeline-test output from --backend fake (not results)
+results/llm_fake/
+results/llm_fake_summary.md
+results/figures/llm_fake_paths.png
