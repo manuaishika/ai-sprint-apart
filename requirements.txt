@@ -1,0 +1,8 @@
+numpy>=2.0
+scipy>=1.13
+numba>=0.60
+pandas>=2.2
+matplotlib>=3.9
+tabulate>=0.9
+anthropic>=2.0   # only for collusion_lab/llm_agents.py
+pytest>=8
