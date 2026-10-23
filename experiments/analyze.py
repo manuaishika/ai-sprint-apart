@@ -117,8 +117,9 @@ def interventions(out):
         g = df[df.label == lab]
         xs = sorted(g[col].unique())
         base_x = {"noise": 0.0, "coarsen": 15, "delay": 0, "jitter": 0.0}[lab]
-        xs_all = [base_x] + xs
-        stats = [b] + [ci(g[g[col] == x].delta) for x in xs]
+        pts = sorted([(base_x, b)] + [(x, ci(g[g[col] == x].delta)) for x in xs], key=lambda z: z[0])
+        xs_all = [x for x, _ in pts]
+        stats = [st for _, st in pts]
         mu = [s[0] for s in stats]
         ax.fill_between(xs_all, [s[1] for s in stats], [s[2] for s in stats],
                         color=SERIES[0], alpha=0.15, lw=0)
@@ -141,8 +142,6 @@ def interventions(out):
     for i, lab in enumerate(["noise", "coarsen"]):
         g = t[t.intervention.isin([lab, "baseline", "blind"])].sort_values("bits")
         ax.plot(g.bits, g.delta_mean, marker="o", ms=5, color=SERIES[i], label=lab)
-        ax.annotate(lab, (g.bits.iloc[-2], g.delta_mean.iloc[-2]), textcoords="offset points",
-                    xytext=(-10, 8), color=INK2, fontsize=9)
     ax.set_xlabel("bits observable about each rival price")
     ax.set_ylabel("mean collusion index Δ")
     ax.legend(frameon=False, loc="upper left")
@@ -206,7 +205,25 @@ def detection(out):
         "noisy-obs collusion vs. all controls": df[df.label.isin(["collusive_noisy_obs", "myopic",
                                                                    "short_horizon", "blind"])],
     }
+    # Δ-matched sample: every myopic session with supracompetitive prices is paired with
+    # the γ=0.95 session (clean or noisy observation) of nearest Δ, without replacement.
+    # Pairs further apart than a caliper of 0.02 in Δ are dropped.
+    cands = df[(df.label == "myopic") & (df.delta > 0.1)].sort_values("delta", ascending=False)
+    pool = df[df.label.isin(["collusive", "collusive_noisy_obs"])].copy()
+    neg_idx, pos_idx = [], []
+    for i, d in cands.delta.items():
+        dist = (pool.delta - d).abs()
+        if len(pool) and dist.min() <= 0.02:
+            j = dist.idxmin()
+            neg_idx.append(i)
+            pos_idx.append(j)
+            pool = pool.drop(j)
+    matched = df.loc[neg_idx + pos_idx]
+    scenarios["Δ-matched (caliper 0.02): γ=0.95 vs. myopic"] = matched
+    gap = np.abs(df.loc[neg_idx].delta.values - df.loc[pos_idx].delta.values).mean()
+
     out.append("## E4: telling collusion from coincidence (200 sessions per condition)\n")
+    out.append(f"Δ-matched scenario: mean |Δ| gap between matched pairs = {gap:.3f}.\n")
     desc = df.groupby("label").agg(delta=("delta", "mean"), share_high=("delta", lambda d: (d > 0.2).mean()),
                                    punish=("probe_resp1", "mean"), dev_gain=("probe_gain", "mean"),
                                    level_corr=("passive_level_corr", "mean"),
@@ -224,7 +241,7 @@ def detection(out):
     out.append(pd.DataFrame(rows).to_markdown(index=False) + "\n")
 
     # ROC figure for the hardest scenario
-    g = scenarios["high prices only (Δ>0.2)"]
+    g = scenarios["Δ-matched (caliper 0.02): γ=0.95 vs. myopic"]
     fig, ax = plt.subplots(figsize=(5, 4.2))
     for i, (dname, col) in enumerate(detectors.items()):
         s = score(g, col)
@@ -235,7 +252,7 @@ def detection(out):
     ax.plot([0, 1], [0, 1], color=INK2, lw=0.8, ls="--")
     ax.set_xlabel("false-positive rate")
     ax.set_ylabel("true-positive rate")
-    ax.set_title("Auditing high-price markets (Δ>0.2)", loc="left", fontsize=11)
+    ax.set_title("Auditing at equal price levels (Δ-matched)", loc="left", fontsize=11)
     ax.legend(frameon=False, fontsize=7.5, loc="lower right")
     fig.tight_layout()
     fig.savefig(f"{FIG}/detection_roc.png")
