@@ -1,0 +1,13 @@
+@page { size: A4; margin: 16mm 17mm; }
+body { font-family: "Times New Roman", Georgia, serif; font-size: 10.5pt; line-height: 1.32; color: #111; max-width: none; margin: 0; }
+header h1.title { font-size: 17pt; text-align: center; margin: 0 0 6pt; }
+h2 { font-size: 12.5pt; margin: 12pt 0 4pt; } h3 { font-size: 11pt; margin: 9pt 0 3pt; }
+p, li { margin: 3pt 0; text-align: justify; } ul, ol { margin: 2pt 0; padding-left: 18pt; }
+img { display: block; margin: 6pt auto 2pt; max-width: 100%; }
+table { border-collapse: collapse; font-size: 9pt; margin: 4pt auto 8pt; } th, td { border-bottom: 0.5pt solid #999; padding: 2pt 5pt; text-align: left; }
+th { border-bottom: 1pt solid #333; } code { font-size: 9pt; }
+p:has(> img) + p em, p > em:only-child { font-size: 9pt; }
+blockquote { margin: 3pt 12pt; color: #333; font-size: 9.5pt; }
+strong { color: #000; }
+ul, ol, li { break-inside: auto; page-break-inside: auto; }
+p:has(> img) { break-inside: avoid; }

@@ -289,7 +289,8 @@ def rl_main_figure():
     raw = pd.read_csv(f"{R}/interventions.csv")
     sw = pd.read_csv(f"{R}/swaps.csv")
     det = pd.read_csv(f"{R}/detection.csv")
-    fig, axes = plt.subplots(1, 4, figsize=(13, 2.9), gridspec_kw={"width_ratios": [1, 0.8, 1, 1.15]})
+    fig, axes = plt.subplots(2, 2, figsize=(9.5, 5.6))
+    axes = axes.ravel()
 
     ax = axes[0]
     base = raw[raw.label == "baseline"].delta
@@ -360,7 +361,7 @@ def rl_main_figure():
     ax.set_xlabel("ROC AUC at equal prices (0.5 = chance)")
     ax.grid(axis="y", visible=False)
     ax.set_title("D   Which evidence detects it?")
-    fig.tight_layout(w_pad=1.8)
+    fig.tight_layout(w_pad=2.5, h_pad=2.2)
     fig.savefig(f"{FIG}/rl_main.png")
     plt.close(fig)
 
