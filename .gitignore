@@ -1,7 +1,8 @@
 __pycache__/
 *.pyc
 .pytest_cache/
-# pipeline-test output from --backend fake (not results)
+# pipeline-test output from scripted bots (not results)
 results/llm_fake/
-results/llm_fake_summary.md
-results/figures/llm_fake_paths.png
+results/llm_fake_summary*.md
+results/llm_fake_summary*.csv
+results/figures/llm_fake_*

@@ -1,25 +1,16 @@
 """Turn results/*.csv into tables (results/summary.md) and figures (results/figures/)."""
 import os
 
-import matplotlib
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+
+from .style import AQUA, BLUE, INK, INK2, LLM, MUTED, ORANGE, RL, plt
 
 R = os.path.join(os.path.dirname(__file__), "..", "results")
 FIG = os.path.join(R, "figures")
 M = 15
-SERIES = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4"]
-INK, INK2, GRID = "#0b0b0b", "#52514e", "#e4e3df"
-
-plt.rcParams.update({
-    "font.size": 10, "axes.edgecolor": INK2, "axes.labelcolor": INK, "text.color": INK,
-    "xtick.color": INK2, "ytick.color": INK2, "axes.grid": True, "grid.color": GRID,
-    "grid.linewidth": 0.6, "axes.spines.top": False, "axes.spines.right": False,
-    "figure.facecolor": "#fcfcfb", "axes.facecolor": "#fcfcfb", "savefig.dpi": 160,
-    "lines.linewidth": 2,
-})
+SERIES = [BLUE, ORANGE, AQUA, "#eda100", "#e87ba4"]
+GRID = "#e6e5e1"
 
 
 def ci(x, reps=2000, seed=0):
@@ -276,6 +267,104 @@ def detection(out):
     plt.close(fig)
 
 
+def matched_sample(det, caliper=0.02):
+    """Myopic sessions with Δ>0.1, each paired with a γ=0.95 session within `caliper` in Δ."""
+    det = det.copy()
+    det["y"] = det.label.isin(["collusive", "collusive_noisy_obs"])
+    cands = det[(det.label == "myopic") & (det.delta > 0.1)].sort_values("delta", ascending=False)
+    pool = det[det.y].copy()
+    idx = []
+    for i, d in cands.delta.items():
+        dist = (pool.delta - d).abs()
+        if len(pool) and dist.min() <= caliper:
+            j = dist.idxmin()
+            idx += [i, j]
+            pool = pool.drop(j)
+    return det.loc[idx]
+
+
+def rl_main_figure():
+    """Main Q-learning figure: levers (A, B), swaps (C), matched-price detection (D)."""
+    iv = pd.read_csv(f"{R}/interventions_summary.csv")
+    raw = pd.read_csv(f"{R}/interventions.csv")
+    sw = pd.read_csv(f"{R}/swaps.csv")
+    det = pd.read_csv(f"{R}/detection.csv")
+    fig, axes = plt.subplots(1, 4, figsize=(13, 2.9), gridspec_kw={"width_ratios": [1, 0.8, 1, 1.15]})
+
+    ax = axes[0]
+    base = raw[raw.label == "baseline"].delta
+    for lab, col, name in [("noise", BLUE, "random noise"), ("coarsen", ORANGE, "rounding (coarsening)")]:
+        g = iv[iv.intervention.isin([lab, "baseline", "blind"])].sort_values("bits")
+        lo, hi = [], []
+        for _, r in g.iterrows():
+            d = raw[(raw.label == r.intervention)]
+            if r.intervention == "noise":
+                d = d[d.eps == float(r.dose.split("=")[1])]
+            elif r.intervention == "coarsen":
+                d = d[d.coarsen == int(r.dose.split()[0])]
+            m, l, h = ci(d.delta)
+            lo.append(l), hi.append(h)
+        ax.fill_between(g.bits, lo, hi, color=col, alpha=0.15, lw=0)
+        ax.plot(g.bits, g.delta_mean, marker="o", color=col, label=name, mec="white", mew=0.8)
+    ax.annotate("1 bit (higher/lower)\nstill gives Δ = 0.75", xy=(1.0, 0.74), xytext=(2.15, 0.06), fontsize=7.5,
+                color=INK2, arrowprops=dict(arrowstyle="-", color=MUTED, lw=0.7))
+    ax.set_xlabel("bits the agent can see about the rival's price")
+    ax.set_ylabel("collusion index Δ")
+    ax.set_ylim(-0.1, 1.08)
+    ax.legend(loc="upper left", handlelength=1.4)
+    ax.set_title("A   Rounding fails, noise works")
+
+    ax = axes[1]
+    for lab, col, xcol, name in [("delay", BLUE, "delay", "observation delay (periods)")]:
+        xs = [0] + sorted(raw[raw.label == lab][xcol].unique())
+        st = [ci(base)] + [ci(raw[(raw.label == lab) & (raw[xcol] == x)].delta) for x in xs[1:]]
+        ax.fill_between(xs, [t[1] for t in st], [t[2] for t in st], color=col, alpha=0.15, lw=0)
+        ax.plot(xs, [t[0] for t in st], marker="o", color=col, mec="white", mew=0.8)
+    ax.annotate("1 period: −41%,\nno information removed", xy=(1, 0.48), xytext=(2.2, 0.62), fontsize=7.5,
+                color=INK2, arrowprops=dict(arrowstyle="-", color=MUTED, lw=0.7))
+    ax.set_xlabel("delay before rival's price is seen")
+    ax.set_ylim(-0.1, 1.08)
+    ax.set_xticks([0, 1, 2, 4, 8])
+    ax.set_title("B   Stale signals")
+
+    ax = axes[2]
+    kinds = [("matched", "original pair"), ("crossplay", "partners swapped"),
+             ("fresh_entrant", "new learner enters"), ("myopic_entrant", "myopic learner enters")]
+    for i, (k, name) in enumerate(kinds):
+        m, lo, hi = ci(sw[sw.kind == k].delta)
+        ax.barh(i, m, color=BLUE if k != "crossplay" else ORANGE, height=0.6)
+        ax.plot([lo, hi], [i, i], color=INK2, lw=0.9)
+        ax.text(hi + 0.03, i, f"{m:.2f}", va="center", fontsize=7.5, color=INK2)
+    ax.set_yticks(range(len(kinds)), [k[1] for k in kinds])
+    ax.invert_yaxis()
+    ax.set_xlim(0, 1)
+    ax.set_xlabel("collusion index Δ")
+    ax.grid(axis="y", visible=False)
+    ax.set_title("C   Collusion is a private convention")
+
+    ax = axes[3]
+    g = matched_sample(det)
+    dets = [("delta", 1, "price is high"), ("passive_level_corr", 1, "prices move together"),
+            ("probe_resp1", -1, "rival punishes a forced cut"), ("probe_gain", -1, "forced cut doesn't pay"),
+            ("passive_leadlag", 1, "rival reacts next period")]
+    for i, (col, sgn, name) in enumerate(dets):
+        v, lo, hi = auc_ci(sgn * g[col].values, g.y.values)
+        ax.barh(i, v, color=MUTED if v < 0.55 else BLUE, height=0.6)
+        ax.plot([lo, hi], [i, i], color=INK2, lw=0.9)
+        ax.text(1.03, i, f"{v:.2f}", va="center", fontsize=7.5, color=INK2)
+    ax.axvline(0.5, color=MUTED, lw=0.8, ls="--")
+    ax.set_yticks(range(len(dets)), [d[2] for d in dets])
+    ax.invert_yaxis()
+    ax.set_xlim(0, 1.12)
+    ax.set_xticks([0, 0.5, 1])
+    ax.set_xlabel("ROC AUC at equal prices (0.5 = chance)")
+    ax.grid(axis="y", visible=False)
+    ax.set_title("D   Which evidence detects it?")
+    fig.tight_layout(w_pad=1.8)
+    fig.savefig(f"{FIG}/rl_main.png")
+    plt.close(fig)
+
+
 def summary_figure():
     """One-page overview: levers, swaps, and detectors at matched price levels."""
     iv = pd.read_csv(f"{R}/interventions_summary.csv")
@@ -349,6 +438,7 @@ def main():
     swaps(out)
     detection(out)
     summary_figure()
+    rl_main_figure()
     open(f"{R}/summary.md", "w").write("\n".join(out))
     print("\n".join(out))
 
