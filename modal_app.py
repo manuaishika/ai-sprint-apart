@@ -63,7 +63,7 @@ def run_large(**kw):
 
 
 @app.local_entrypoint()
-def main(model: str = "Qwen/Qwen2.5-7B-Instruct", seeds: int = 10, periods: int = 60,
+def main(model: str = "Qwen/Qwen2.5-7B-Instruct", seeds: int = 10, periods: int = 100,
          horizon: int = 10, temperature: float = 0.7, max_tokens: int = 400):
     big = any(s in model for s in ("14B", "32B", "13B"))
     fn = run_large if big else run_small

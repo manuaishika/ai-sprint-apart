@@ -1,5 +1,5 @@
 ---
-title: "One Bit Is Enough: Breaking and Auditing Tacit Collusion Between Learning Pricing Agents"
+title: "A Few Bits Suffice: Breaking and Auditing Tacit Collusion Between Learning Pricing Agents"
 ---
 
 **manuaishika** — Independent researcher
@@ -8,17 +8,17 @@ title: "One Bit Is Enough: Breaking and Auditing Tacit Collusion Between Learnin
 
 ## Abstract
 
-Pricing agents can learn to collude without communicating: in repeated markets, independent learners settle on high prices and punish rivals who undercut. A regulator or platform needs to know which restrictions break such collusion, and what evidence separates it from prices that are high by coincidence. We study both in the standard logit-demand pricing game of Calvano et al. (2020). We train Q-learning agents in about 4,300 sessions, restricting what they can see of their rival's price, and compare them with control agents that reach high prices but cannot sustain collusion. We also ask a question that becomes central for AI agents: does looking *inside* an agent, at what it intends to do, reveal collusion that watching what it does misses?
+Pricing agents can learn to collude without communicating: in repeated markets, independent learners settle on high prices and punish rivals who undercut. A regulator or platform needs to know which restrictions break such collusion, and what evidence separates it from prices that are high by coincidence. We study both in the standard logit-demand pricing game of Calvano et al. (2020). We train Q-learning agents in about 10,000 sessions, restricting what they can see of their rival's price, and compare them with control agents that reach high prices but cannot sustain collusion. We also ask a question that becomes central for AI agents: does looking *inside* an agent, at what it intends to do, reveal collusion that watching what it does misses?
 
 Five results:
 
-1. **Collusion needs about one bit.** Telling agents only whether the rival's price is higher or lower than their own leaves collusion almost intact (collusion index 0.81 → 0.75).
-2. **Corrupting or delaying the signal works where rounding does not.** Random noise (−53%) and a one-period delay (−41%) cut collusion, and delay does so without removing any information.
+1. **A few bits suffice, if they are the right bits.** Telling agents only whether the rival's price is in the upper or lower half of the range (one bit) leaves collusion almost intact (collusion index 0.81 → 0.75), as does showing it relative to their own price as lower, equal or higher (1.6 bits, 0.73). A one-bit relative signal ("is the rival at least as high as me?") cuts it to 0.50.
+2. **Corrupting or delaying the signal works where banding does not.** Random noise (−53%) and a one-period delay (−41%) cut collusion. Delay removes no information; it works mainly because fewer agents learn to retaliate (86% → 41%), not because punishment would arrive too late for a perfect trigger strategy.
 3. **Collusion is a private convention.** Agents from different sessions cannot collude with each other (0.20), but a new entrant re-learns collusion within one training run (0.74).
-4. **Standard evidence fails at equal price levels.** Price level is at chance (AUC 0.48) and parallel pricing points the wrong way (0.02). Testing whether a firm *reacts* to its rival's price changes detects collusion well (0.90).
-5. **Behaviour understates intent.** Reading each agent's learned strategy shows that colluders who see their rival through noise *intend* to retaliate about twice as hard as they actually do in the market (−0.26 vs. −0.13). Over all agents, reading the strategy detects collusion better (AUC 0.90) than any behavioural test (≤ 0.77).
+4. **Standard evidence fails at equal price levels.** In 280 matched pairs, price level is at chance (AUC 0.48) and parallel pricing points the wrong way (0.02). Testing whether a firm *reacts* to its rival's price changes detects collusion well (0.91).
+5. **Behaviour understates intent.** Colluders who see their rival through noise *intend* to retaliate about twice as hard as they actually do in the market (−0.27 vs. −0.14). Reading each agent's learned strategy detects collusion better (AUC 0.89) than any behavioural test (≤ 0.78).
 
-These conclusions hold across three alternative learning-parameter settings. The takeaway is that defenders should corrupt or delay coordination signals rather than coarsen them, and auditors should test reactions, not price levels or parallelism, and should ask for access to agents' internals where they can. We release a tested LLM-agent version of the same experiments in which the "internals" are the agents' written reasoning, together with pre-registered predictions.
+These conclusions hold across three alternative learning-parameter settings and do not depend on training length. The takeaway is that defenders should corrupt or delay coordination signals rather than coarsen them, and auditors should test reactions, not price levels or parallelism, and should ask for access to agents' internals where they can. We release a tested LLM-agent version of the same experiments in which the "internals" are the agents' written reasoning, together with pre-registered predictions.
 
 ## 1. Introduction
 
@@ -35,7 +35,7 @@ We answer these in a setting where ground truth is known by construction: we con
 
 Our contributions:
 
-1. **A cost map of five interventions on the price signal.** Collusion survives coarsening to one bit, but random corruption and delay break it. We measure costs in bits withheld and in welfare.
+1. **A cost map of five interventions on the price signal.** Collusion survives coarsening to one or two well-chosen bits, but random corruption and delay break it. We measure costs in bits withheld and in welfare, and test why delay works: it mainly stops agents from learning to retaliate.
 2. **Evidence that learned collusion is a pair-specific convention.** Cross-play removes it; entry restores it.
 3. **A labelled benchmark for telling collusion from coincidence.** At matched price levels, high prices and parallel pricing fail as evidence, while reaction-based tests succeed.
 4. **A comparison of reading an agent's mind with watching its hands.** On the same sessions, an auditor that reads agents' learned strategies outperforms every behavioural test overall, and shows that observation noise hides about half of agents' intended retaliation.
@@ -62,12 +62,13 @@ Our contributions:
 **Interventions.** These act during training and deployment:
 
 - *noise*: each observed rival price is replaced by a random grid price with probability ε;
-- *coarsening*: the rival's price is observed only up to k buckets (k = 2 means "higher or lower");
+- *banding (absolute coarsening)*: the rival's price is observed only as one of k equal bands of the price grid (k = 2: upper or lower half; k = 1: nothing);
+- *relative signals*: the rival's price is observed only relative to the agent's own last price, as lower / equal / higher (1.6 bits) or as "at least as high as mine?" (1 bit);
 - *delay*: the rival's price is observed d periods late;
 - *jitter*: each executed price is randomised with probability p;
 - *blind*: the rival's price is never observed.
 
-For noise and coarsening we report the information the agent retains about the rival's price, I(true; observed), under a uniform prior. At baseline this is log₂15 = 3.9 bits.
+For noise and banding we report the information the agent retains about the rival's price, I(true; observed), under a uniform prior. At baseline this is log₂15 = 3.9 bits.
 
 **Swaps.** From 100 converged pairs we test three swaps:
 
@@ -75,7 +76,7 @@ For noise and coarsening we report the information the agent retains about the r
 - *fresh entrant*: a new learner replaces firm 1 and both firms continue learning;
 - *myopic entrant*: a learner with γ = 0 replaces firm 1.
 
-**Auditing benchmark.** Positives are agents that can run a punishment scheme: γ = 0.95, with full or noisy (ε = 0.2) observation. Negatives are agents that cannot: myopic (γ = 0), short-horizon (γ = 0.5) and blind. Each condition has 200 seeds. We compare five detectors:
+**Auditing benchmark.** Positives are agents that can run a punishment scheme: γ = 0.95, with full or noisy (ε = 0.2) observation. Negatives are agents that cannot: myopic (γ = 0), short-horizon (γ = 0.5) and blind. Each condition has 1,000 seeds. We compare five detectors:
 
 - D1, price level Δ;
 - D2, parallel pricing (correlation of the two firms' prices);
@@ -83,17 +84,23 @@ For noise and coarsening we report the information the agent retains about the r
 - D4, the active probe's punishment: the rival's next-period price response after firm 0 is forced to its one-shot best response, compared against an identical-seed replay without the deviation;
 - D5, the probe's payoff: the discounted gain from that deviation.
 
-We report ROC AUC with 1,000-sample bootstrap 95% CIs. The key comparison is **Δ-matched**: each myopic session with Δ > 0.1 is paired with a colluding session whose Δ differs by less than 0.02. This gives 60 pairs with a mean gap of 0.004, so a detector can succeed only by seeing the *mechanism*, not the price level.
+We report ROC AUC with 1,000-sample bootstrap 95% CIs. The key comparison is **Δ-matched**: each myopic session with Δ > 0.1 is paired with a colluding session whose Δ differs by less than 0.02. This gives 280 pairs with a mean gap of 0.004, so a detector can succeed only by seeing the *mechanism*, not the price level.
 
 **Reading the strategy (white-box audit).** For each detection session we also read the agents' learned policies directly. Take the market's current state. For every lower price the rival could have charged instead, we look up what the responder's policy says it would charge next. **W** is the mean change from its on-path price, in units of p_M − p_N; negative means it plans to retaliate. We read the policy at the true rival price, so observation noise does not blur it. This requires no market interaction. It is the Q-learning analogue of reading an LLM agent's notes. Sessions are deterministic given the seed, so this re-run reproduces the detection sessions exactly (identical Δ), and white-box and behavioural scores can be compared on the same agents.
 
-**Robustness.** We re-run the five main levers (none, coarsening to 2 buckets, 20% noise, 1-period delay, blind) under three alternative settings, with 50 seeds each:
+**Robustness.** We re-run the five main levers (none, one absolute bit, 20% noise, 1-period delay, blind) under three alternative settings, with 50 seeds each:
 
 - Calvano et al.'s slower exploration, β = 4×10⁻⁶;
 - a lower learning rate, α = 0.1;
 - a higher learning rate, α = 0.25.
 
-**What didn't work.** Our first matching used nearest neighbours without a caliper. Because the classes' Δ distributions overlap only partly, it left a 0.13 gap in Δ, and price level still looked diagnostic (AUC 0.89). Adding the caliper removed this artefact.
+**Follow-up experiments.** Three further experiments answer specific questions raised by the main results.
+
+- *Relative signals:* 100 sessions for each relative signal above, compared with the absolute two-band signal.
+- *Delay mechanism:* for delays of 0, 1, 2 and 4 periods (100 sessions each) we measure the rival's price response to a forced cut at every lag after it can first see the cut. We also measure the intended retaliation read from each agent's learned strategy, evaluated at the delayed state; a session *learned to retaliate* if this is below −0.1(p_M − p_N). Finally we compute the highest symmetric price a grim-trigger scheme can sustain at γ = 0.95 when a deviation goes unpunished for 1 + delay periods.
+- *Training length:* for jitter (p = 0.05, 0.1) and 20% noise, 60 sessions at each of 1, 3, 6 and 12 million training periods.
+
+**What didn't work, and a correction.** Our first matching used nearest neighbours without a caliper. Because the classes' Δ distributions overlap only partly, it left a 0.13 gap in Δ, and price level still looked diagnostic (AUC 0.89). Adding the caliper removed this artefact. Separately, an earlier version of this paper described the two-band signal as "whether the rival's price is higher or lower than the agent's own". It is absolute (upper versus lower half of the grid). Running the relative signals (Section 4.1) shows that the distinction matters.
 
 ## 4. Results
 
@@ -101,9 +108,9 @@ We report ROC AUC with 1,000-sample bootstrap 95% CIs. The key comparison is **�
 
 ![](../results/figures/rl_main.png)
 
-*Figure 2. Main results (100 sessions per point; bands and bars are 95% CIs).*
+*Figure 2. Main results (100 sessions per point in A–C; 280 matched pairs in D; bands and bars are 95% CIs).*
 
-- *(A)* With the rival's price rounded to one bit, Δ stays at 0.75. Random noise withholding similar information cuts collusion far more.
+- *(A)* With the rival's price banded to one bit (upper or lower half), Δ stays at 0.75. Random noise withholding similar information cuts collusion far more.
 - *(B)* A one-period delay cuts Δ by 41% without removing any information.
 - *(C)* Agents from different sessions fail to collude with each other, but a new learner re-learns collusion.
 - *(D)* At equal price levels, "price is high" is at chance and "prices move together" is far below chance, while a lead–lag reaction test detects collusion.
@@ -115,7 +122,7 @@ We report ROC AUC with 1,000-sample bootstrap 95% CIs. The key comparison is **�
 | Intervention | Δ (95% CI) | Bits removed | ΔCS | ΔW |
 |---|---|---|---|---|
 | none | 0.81 (0.79–0.83) | 0 | – | – |
-| round to higher/lower | 0.75 (0.71–0.78) | 2.9 | +0.03 | +0.02 |
+| 1 absolute bit (upper/lower half) | 0.75 (0.71–0.78) | 2.9 | +0.03 | +0.02 |
 | 1-period delay | 0.48 (0.45–0.51) | 0 | +0.12 | +0.04 |
 | 5% price jitter | 0.45 (0.41–0.49) | 0 | +0.12 | +0.04 |
 | 20% noise | 0.38 (0.37–0.40) | 1.4 | +0.15 | +0.05 |
@@ -123,54 +130,71 @@ We report ROC AUC with 1,000-sample bootstrap 95% CIs. The key comparison is **�
 | 70% noise | 0.01 (0.00–0.03) | 3.4 | +0.26 | +0.08 |
 | blind | −0.03 (−0.04 to −0.02) | 3.9 | +0.27 | +0.08 |
 
-- **Rounding does not help.** Even with only "higher or lower" visible, agents sustain Δ = 0.75 with full punishment (−0.43). A trigger strategy only needs to detect "my rival cut its price", and rounding preserves exactly that event.
+- **Banding does not help.** Even with only the upper or lower half of the price range visible (one bit), agents sustain Δ = 0.75 with full punishment (−0.43). A cut from collusive to competitive prices crosses the middle of the range, so one bit is enough to see it.
+- **Which one-bit signal matters (Figure 3A).** Showing the rival's price relative to the agent's own ("lower / equal / higher", 1.6 bits) keeps Δ = 0.73 (0.71–0.75). Showing only "at least as high as mine?" (one bit) drops it to 0.50 (0.45–0.54), with weaker punishment (−0.19). The two-valued signal merges "the rival matched me" with "the rival raised its price". We read this as the signal needing to separate "the rival is where I expect" from "the rival moved down", but we have not tested that reading directly.
 - **Noise does help.** Withholding a similar amount of information as random noise cuts collusion far more: at 1.5 bits retained, Δ = 0.18 (Figure 2A). Random corruption makes the trigger fire against innocent rivals, and the scheme unravels.
-- **Delay helps without removing information.** Under a one-period delay the deviation still does not pay (−2.23), but punishment arrives too late to support high prices (Figure 2B).
+- **Delay helps without removing information.** A one-period delay cuts Δ by 41%. Section 4.2 examines why.
 - **Nothing short of blindness fully works.** No moderate dose restores competition: delay and jitter level off near Δ ≈ 0.2. Only blindness, or noise at ε ≥ 0.7, reaches the Nash benchmark.
 - **Welfare improves throughout.** Every lever raised consumer surplus and total welfare.
 
-### 4.2 Does collusion survive swapping an agent?
+![](../results/figures/mechanisms.png)
+
+*Figure 3. Follow-up experiments (100 sessions per point; 60 in D). (A) Not every one-bit signal sustains collusion. (B) Under delay, fewer agents learn to retaliate, and those that do keep more collusion. (C) The rival's enacted response to a forced cut, aligned to the first period it can see the cut. (D) Δ is stable as training lengthens.*
+
+### 4.2 Why does a one-period delay break collusion?
+
+A one-period delay cuts Δ from 0.81 to 0.48, yet a deviation still does not pay (−2.23). Two explanations are natural: punishment arrives too late to deter, or agents fail to learn to retaliate against a delayed signal.
+
+- **Lateness alone is not enough.** A grim-trigger scheme at γ = 0.95 can sustain the monopoly price even if a deviation goes unpunished for up to 8 periods. A *perfect* trigger strategy would therefore be unaffected by a one-period delay.
+- **Fewer agents learn to retaliate (Figure 3B).** The share of sessions whose learned strategy plans to retaliate falls from 86% (no delay) to 41%, 39% and 35% (delays of 1, 2 and 4), and mean intended retaliation falls from −0.41 to −0.09. Across sessions, stronger intended retaliation goes with more collusion (correlation −0.52 at one period of delay, −0.48 without delay).
+- **Enacted retaliation is weaker even for agents that learn it (Figure 3C).** With a one-period delay, colluders cut the rival's price by 0.19(p_M − p_N) in the first period they can see the cut, against 0.41 without delay. Sessions that did learn to retaliate reach Δ = 0.56 rather than 0.82.
+
+Our reading is that delay mainly makes retaliation harder to *learn*. The agent's state no longer contains the rival's latest price, so the profits it observes depend on information it cannot see, and tabular Q-learning attributes them poorly. Lateness and learning difficulty are confounded in learned agents, so we cannot separate their contributions, and the remaining gap for agents that did learn to retaliate (0.56 against 0.82) is consistent with either. A direct test, giving delayed agents the missing state variable, is future work. The negative deviation gain under delay is not a contradiction: it describes the lower price level these agents settle at, where there is less to gain from deviating.
+
+### 4.3 Does collusion survive swapping an agent?
 
 - **Cross-play.** Pairing agents from different sessions gives Δ = 0.20 (0.17–0.23); only 4% of pairs exceed 0.5, and punishment vanishes (−0.004). Each pair's prices and triggers are a private convention.
 - **Fresh entrant.** Swapping in a new learner does not break collusion for long: it reaches Δ = 0.74 (0.72–0.76) with an incumbent that keeps learning.
 - **Myopic entrant.** Collusion falls to 0.42.
 - **Frozen incumbent.** A new learner facing an incumbent that no longer learns reaches Δ = 0.62, but a deviation against it now *pays* (+1.54). The entrant has learned to accommodate the incumbent rather than to punish it. This is a high-price outcome with no collusion behind it.
 
-### 4.3 What evidence separates collusion from coincidence?
+### 4.4 What evidence separates collusion from coincidence?
 
-Agents that cannot collude still often price high: 56% of myopic sessions have Δ > 0.2, and some reach 0.5. Pooled over all controls, price level separates the classes well (AUC 0.99), but only because fully observing colluders price far above everything else. At **matched price levels** (Figure 2D):
+Agents that cannot collude still often price high: 54% of myopic sessions have Δ > 0.2, and some reach 0.5. Pooled over all controls, price level separates the classes well (AUC 1.00), but only because fully observing colluders price far above everything else. At **matched price levels** (Figure 2D; 280 pairs, nearly all with a noisy-view colluder, since only those reach the myopic agents' price range):
 
 | Detector | AUC (95% CI) |
 |---|---|
-| D1, price level | 0.48 (0.38–0.59), chance by construction |
-| D2, parallel pricing | 0.02 (0.01–0.05): non-colluders move *more* in lockstep |
-| D3, lead–lag reaction | 0.90 (0.84–0.94), the best detector |
-| D4 / D5, single forced deviation | 0.63 (0.53–0.73) / 0.63 (0.51–0.74) |
+| D1, price level | 0.48 (0.43–0.53), chance by construction |
+| D2, parallel pricing | 0.02 (0.01–0.03): non-colluders move *more* in lockstep |
+| D3, lead–lag reaction | 0.91 (0.89–0.93), the best detector |
+| D4 / D5, single forced deviation | 0.66 (0.61–0.71) / 0.71 (0.66–0.76) |
 
 Under delay, the immediate punishment signal (D4) reads exactly 0, while D5 still shows that the deviation does not pay. Audits should therefore score the *payoff consequences* of a deviation over a window, not only the immediate reaction.
 
-### 4.4 What agents intend vs. what they do
+### 4.5 What agents intend vs. what they do
 
 ![](../results/figures/mind_vs_hands.png)
 
-*Figure 3. Reading the strategy versus watching behaviour, on the same 1,000 sessions (200 per agent type).*
+*Figure 4. Reading the strategy versus watching behaviour, on the same 5,000 sessions (1,000 per agent type).*
 
 - *(A)* The rival's retaliation against an undercut: as read from its learned strategy (orange), and as enacted when the undercut is forced in the market (blue). For colluders that see their rival through noise, intended retaliation is about twice the enacted one.
-- *(B)* Detection AUC. Solid bars cover all agents; faded bars cover the 60 Δ-matched pairs with equal prices.
+- *(B)* Detection AUC. Solid bars cover all agents; faded bars cover the 280 Δ-matched pairs with equal prices.
 
-For colluders with an exact view, reading the strategy and running the market probe agree (−0.41 vs. −0.43). For colluders who see their rival through noise, they diverge sharply: the strategy plans a cut of −0.26, but in the market the cut is only −0.13. This is because noise also corrupts what the agent perceives *after* the deviation. **Behaviour understates intent by about half.** Myopic and blind agents plan no retaliation, so reading the strategy never mistakes a coincidental high price for collusion.
+For colluders with an exact view, reading the strategy and running the market probe agree (−0.42 vs. −0.42). For colluders who see their rival through noise, they diverge sharply: the strategy plans a cut of −0.27, but in the market the cut is only −0.14. This is because noise also corrupts what the agent perceives *after* the deviation. **Behaviour understates intent by about half.** Myopic and blind agents plan no retaliation, so reading the strategy never mistakes a coincidental high price for collusion.
 
-As a detector, reading the strategy is the best single test across all agents (AUC 0.90, 0.88–0.92), ahead of the forced-deviation probe (0.77) and lead–lag reaction (0.66). Raw price level scores 0.94 here, but only because clean colluders price far above everything else, and it falls to chance at equal prices. At equal prices, reading the strategy (0.78, 0.70–0.85) clearly beats a single forced deviation (0.63). A long passive record of reactions (0.90) remains the strongest test there: it averages over thousands of small natural experiments, whereas we read the strategy at a single state. The two kinds of evidence are complementary. Internals reveal intent that behaviour hides under noise, while long behavioural records reveal how reliably that intent is carried out.
+As a detector, reading the strategy is the best single test across all agents (AUC 0.89, 0.88–0.90), ahead of the forced-deviation probe (0.76–0.78) and lead–lag reaction (0.68). Raw price level scores 0.94 here, but only because clean colluders price far above everything else, and it falls to chance at equal prices. At equal prices, reading the strategy (0.78, 0.74–0.81) beats a single forced deviation (0.66–0.71). A long passive record of reactions (0.91) remains the strongest test there: it averages over thousands of small natural experiments, whereas we read the strategy at a single state. The two kinds of evidence are complementary. Internals reveal intent that behaviour hides under noise, while long behavioural records reveal how reliably that intent is carried out.
 
-### 4.5 Robustness
+### 4.6 Robustness and training length
 
-We repeated the five main levers under Calvano et al.'s slower exploration and under lower and higher learning rates (50 sessions each; Table A4). The ranking never changes. Rounding to one bit keeps 87–93% of baseline collusion, 20% noise keeps 36–58%, a one-period delay keeps 49–59%, and blind agents always price competitively.
+**Learning parameters.** We repeated the five main levers under Calvano et al.'s slower exploration and under lower and higher learning rates (50 sessions each; Table A4). The ranking never changes. A single absolute bit keeps 87–93% of baseline collusion, 20% noise keeps 36–58%, a one-period delay keeps 49–59%, and blind agents always price competitively.
+
+**Does Δ mean anything when sessions do not settle? (Figure 3D; Table A6).** Under noise, non-convergence was a matter of training time: the share of sessions meeting the convergence criterion rises from 2% at 1 million periods to 98% at 12 million, while Δ stays at 0.38 (0.36–0.40). Under mandated price jitter, no session can meet a strict criterion by construction, because the forced random prices keep perturbing the learned values. Even so, Δ is stable across a 12-fold longer training run: from 0.47 to 0.44 for p = 0.05 and from 0.31 to 0.27 for p = 0.1, a slight downward drift within the confidence intervals. We therefore read the jitter dose–response as a long-run outcome rather than a fixed point.
 
 ## 5. Discussion and Limitations
 
 **Implications for AI safety.** As pricing and negotiation are delegated to AI agents, harmful coordination can arise without intent or messages. Our results suggest three rules:
 
-1. *Coordination needs very little bandwidth.* Limiting the precision of shared information is not a safeguard. Randomising or delaying it is.
+1. *Coordination needs very little bandwidth, but the right bandwidth.* Banding the shared signal to one or two bits is not a safeguard unless the bits fail to separate "the rival cut" from "the rival is at my price". Randomising or delaying the signal is.
 2. *Learned conventions are brittle across partners but re-learnable.* Rotating counterparties buys time, not safety.
 3. *Audits must test reactions, not outcomes.* High and parallel prices are reproduced, and parallelism is even exaggerated, by agents that cannot collude. Because the best passive test needs price variation, a regulator can *induce* that variation, for example with mandated price experiments or sandboxed replays, rather than wait for it.
 
@@ -178,27 +202,28 @@ We repeated the five main levers under Calvano et al.'s slower exploration and u
 
 - *Do LLM agents' notes play the role that Q-tables play here?* That is, does reading what an LLM agent writes reveal intent its prices hide?
 - *Faithfulness.* Can an agent's stated reasoning diverge from its actual strategy, and would an auditor notice?
-- *Bandwidth.* Does collusion between agents that reason in language need more than one bit, or less?
+- *Bandwidth.* Does collusion between agents that reason in language need more or fewer bits than Q-learners, and which bits?
 - *Concealment.* If agents know they are audited, does intended retaliation migrate into channels that neither prices nor notes reveal?
 
 Our LLM extension is built to answer the first three, and its predictions are fixed in advance (Appendix B).
 
 **Limitations.**
 
-- *Agents.* Our agents are tabular Q-learners with one-period memory, 15 prices and symmetric firms. Agents with longer memory might route around a one-period delay or need more than one bit.
-- *Convergence.* Under noise and jitter, many sessions never meet the strict convergence criterion (0–94%). Their Δ describes continued play rather than a fixed point.
+- *Agents.* Our agents are tabular Q-learners with one-period memory, 15 prices and symmetric firms. Agents with longer memory might route around a one-period delay or need more bits.
+- *Convergence.* Under jitter no session can meet a strict convergence criterion by construction. Δ is nevertheless stable over a 12-fold longer training run (Section 4.6), so we read the jitter dose–response as a long-run outcome rather than a fixed point.
 - *Labels.* "Collusive" encodes *capacity* to collude. Short-horizon agents can partly punish, so the headline comparison uses myopic negatives only.
-- *Sample size.* The matched sample is small (60 pairs).
+- *Matched sample.* The 280 matched pairs are almost all noisy-view colluders against myopic agents, so the equal-price comparison speaks to that case.
+- *Mechanism.* Section 4.2 cannot separate late punishment from difficulty learning it, and our explanation of why delay hinders learning is not tested directly.
 - *Welfare.* Welfare effects are specific to this market, where high prices are the only inefficiency. Where price information has legitimate uses, noise and delay carry real costs.
-- *No LLM evidence yet.* We did not run the LLM extension during the sprint because we lacked model access. Whether LLM agents share these properties is the main open question.
+- *No LLM evidence yet.* We did not run the LLM extension during the sprint because we lacked model access. Whether LLM agents share these properties is the main open question. The LLM protocol runs 100 periods per condition before the probe and reports Δ in 20-period blocks, so that a rising trend, rather than a flat low value, flags a horizon that is too short (Appendix B).
 
-**Future work.** The LLM-agent harness (Appendix B) runs the same five conditions, plus a message channel, on Qwen2.5-7B via vLLM. It forks every run at the probe into deviation and no-deviation branches with shared sampling seeds. It also scores agents' private notes with an LLM judge, which lets us compare what agents *say* with what they *do*. The harness is unit-tested with scripted agents, and our predictions are recorded in Appendix B. Further directions: frontier models, longer horizons, asymmetric firms, and steganographic channels.
+**Future work.** The LLM-agent harness (Appendix B) runs the same five conditions, plus a message channel, on Qwen2.5-7B via vLLM. It forks every run at the probe into deviation and no-deviation branches with shared sampling seeds. It also scores agents' private notes with an LLM judge, which lets us compare what agents *say* with what they *do*. The harness is unit-tested with scripted agents, and our predictions are recorded in Appendix B. Further directions: giving delayed agents the missing state variable to test the learning explanation directly, frontier models, longer horizons, asymmetric firms, and steganographic channels.
 
 **Ethics and dual use.** These results could inform evasion: keeping a coordination signal coarse, or keeping prices deterministic to starve passive audits. We judge the risk low. The properties follow from known trigger-strategy logic, the agents are research-scale, and the main policy implication favours auditors. We release no tooling aimed at real markets.
 
 ## 6. Conclusion
 
-Tacit collusion between learning pricing agents travels on the price signal and needs about one bit of it. Rounding the signal does almost nothing. Random corruption, or a single period of delay, cuts collusion by roughly half, and only removing the signal entirely restores competition. Collusion is a private convention between the agents that learned it: it disappears when partners are swapped and reappears when a new learner enters.
+Tacit collusion between learning pricing agents travels on the price signal and needs only one or two bits of it, provided those bits let agents recognise a rival's cut. Banding the signal does almost nothing. Random corruption, or a single period of delay, cuts collusion by roughly half, mainly because fewer agents then learn to retaliate, and only removing the signal entirely restores competition. Collusion is a private convention between the agents that learned it: it disappears when partners are swapped and reappears when a new learner enters.
 
 For auditors, high prices and parallel pricing are poor evidence. At equal price levels the first is uninformative and the second points the wrong way. Testing whether firms *react* to rivals' price moves, in a way that makes undercutting unprofitable, separates collusion from coincidence. Looking inside the agents adds a further lesson: behaviour can understate collusive intent by half, so audits with access to an agent's strategy, or to its reasoning, see more than market data alone. Defenders of multi-agent AI systems should target the reliability and timeliness of coordination signals, and auditors should measure reactions rather than outcomes and seek access to internals where possible.
 
@@ -206,7 +231,7 @@ For auditors, high prices and parallel pricing are poor evidence. At equal price
 
 - **Code:** https://github.com/manuaishika/ai-sprint-apart. It contains the market, agents and interventions, the experiment and analysis scripts, unit tests, and the LLM-agent extension (`collusion_lab/llm_market.py`, `modal_app.py`).
 - **Data:** session-level results are in `results/*.csv`, with summaries in `results/summary.md`.
-- **Reproduce:** `python -m experiments.run_all && python -m experiments.robustness && python -m experiments.mind_vs_hands && python -m experiments.analyze`. This takes about 30 minutes on 4 CPU cores and needs no GPU or API key.
+- **Reproduce:** `python -m experiments.run_all && python -m experiments.robustness && python -m experiments.mechanisms all && python -m experiments.mind_vs_hands && python -m experiments.analyze && python -m experiments.analyze_mech`. This takes about 90 minutes on 4 CPU cores and needs no GPU or API key.
 
 ## Author Contributions
 
@@ -236,7 +261,7 @@ manuaishika directed the project and chose the research questions. Implementatio
 | baseline | – | 0.81 | 100% | −0.41 | −1.34 |
 | 3 firms | – | 0.63 | 100% | −0.28 | −2.98 |
 | noise | ε = .05/.1/.2/.4/.7/1 | .68/.58/.38/.18/.01/−.03 | 66/59/50/77/91/94% | −.32/−.27/−.11/−.04/.00/.00 | −.77/−.55/−.16/−.05/−.01/.00 |
-| coarsen | 8/4/2/1 buckets | .82/.74/.75/−.03 | 100% | −.47/−.34/−.43/.00 | −1.62/−1.56/−1.34/.01 |
+| absolute banding | 8/4/2/1 bands | .82/.74/.75/−.03 | 100% | −.47/−.34/−.43/.00 | −1.62/−1.56/−1.34/.01 |
 | delay | 1/2/4/8 periods | .48/.31/.23/.21 | 100% | .00 (punishment arrives later) | −2.23/−1.47/−.60/−.35 |
 | jitter | p = .02/.05/.1/.2 | .65/.45/.29/.24 | 0% | −.38/−.22/−.11/−.04 | −1.02/−.50/−.14/.01 |
 
@@ -254,18 +279,36 @@ manuaishika directed the project and chose the research questions. Implementatio
 
 | Scenario | D1 level | D2 parallel | D3 lead–lag | D4 punish | D5 dev. unprofitable |
 |---|---|---|---|---|---|
-| all controls | 0.99 | 0.75 | 0.62 | 0.82 | 0.89 |
-| noisy colluders vs. all controls | 0.88 | 0.37 | 0.70 | 0.73 | 0.65 |
-| Δ-matched vs. myopic (60 pairs) | 0.48 | 0.02 | 0.90 | 0.63 | 0.63 |
+| all agents (4,000 negatives, 1,000 clean-view positives) | 1.00 | 0.73 | 0.64 | 0.81 | 0.86 |
+| noisy colluders vs. all controls (1,000 each) | 0.88 | 0.35 | 0.72 | 0.75 | 0.67 |
+| Δ-matched vs. myopic (280 pairs) | 0.48 | 0.02 | 0.91 | 0.66 | 0.71 |
 
-*Table A4. Mean Δ (95% CI) under alternative learning parameters (50 sessions per cell). The ranking holds in every setting: rounding leaves most collusion intact, noise and delay roughly halve it, and blindness removes it.*
+*Table A4. Mean Δ (95% CI) under alternative learning parameters (50 sessions per cell). The ranking holds in every setting: one absolute bit leaves most collusion intact, noise and delay roughly halve it, and blindness removes it.*
 
-| Setting | None | Higher/lower | 20% noise | 1-period delay | Blind |
+| Setting | None | 1 absolute bit | 20% noise | 1-period delay | Blind |
 |---|---|---|---|---|---|
 | main (α = 0.15, β = 10⁻⁵; 100 sessions) | 0.81 (0.79–0.83) | 0.75 (0.71–0.78) | 0.38 (0.37–0.40) | 0.48 (0.45–0.51) | −0.03 |
 | slower exploration (β = 4×10⁻⁶, as in Calvano et al.) | 0.83 (0.79–0.86) | 0.76 (0.71–0.80) | 0.30 (0.28–0.32) | 0.41 (0.37–0.46) | −0.03 |
 | lower learning rate (α = 0.1) | 0.81 (0.78–0.84) | 0.74 (0.69–0.78) | 0.47 (0.45–0.49) | 0.48 (0.44–0.52) | −0.05 |
 | higher learning rate (α = 0.25) | 0.83 (0.79–0.86) | 0.72 (0.66–0.77) | 0.34 (0.32–0.36) | 0.42 (0.38–0.47) | −0.04 |
+
+*Table A5. Delay mechanism (100 sessions per delay). "Learned" is the share of sessions whose strategy plans to retaliate (intended retaliation below −0.1 in units of p_M − p_N); "intended" is its mean.*
+
+| Delay (periods) | Δ | Learned | Intended | Corr(Δ, intended) |
+|---|---|---|---|---|
+| 0 | 0.81 | 86% | −0.41 | −0.48 |
+| 1 | 0.48 | 41% | −0.09 | −0.52 |
+| 2 | 0.31 | 39% | −0.07 | −0.39 |
+| 4 | 0.23 | 35% | −0.06 | −0.25 |
+
+*Table A6. Δ by training length (60 sessions per cell; 95% CI). "Converged" is the share of sessions meeting the strict convergence criterion.*
+
+| Condition | 1M periods | 3M | 6M | 12M |
+|---|---|---|---|---|
+| jitter p = 0.05 | 0.47 (0.42–0.52) | 0.46 (0.41–0.51) | 0.45 (0.40–0.50) | 0.44 (0.39–0.48) |
+| jitter p = 0.1 | 0.31 (0.28–0.34) | 0.28 (0.26–0.31) | 0.29 (0.26–0.32) | 0.27 (0.24–0.30) |
+| noise ε = 0.2 | 0.34 (0.32–0.37) | 0.38 (0.36–0.40) | 0.38 (0.36–0.40) | 0.38 (0.36–0.40) |
+| noise ε = 0.2, converged | 2% | 43% | 93% | 98% |
 
 ### B. LLM-agent extension: protocol and pre-registered predictions
 
@@ -280,27 +323,30 @@ manuaishika directed the project and chose the research questions. Implementatio
 
 It replies in JSON with new notes and a price.
 
-**Conditions.** Six conditions, each with 10 seeds and 60 periods:
+**Conditions.** Six conditions, each with 10 seeds and 100 periods before the probe (plus 10 after):
 
 - exact price;
-- higher / lower / about the same;
+- relative: lower / about the same / higher than the agent's own price (the Q-learning analogue is the three-valued relative signal, Δ = 0.73);
 - 30% noise;
 - one period late;
 - blind;
 - exact price plus a free-text message channel.
 
-**Probe.** At period 60, every run forks into a branch where firm 0 is forced to its one-shot best response and a branch where it is not. The two branches share sampling seeds.
+**Probe.** At period 100, every run forks into a branch where firm 0 is forced to its one-shot best response and a branch where it is not. The two branches share sampling seeds.
 
 **Detectors.** The five behavioural detectors above, plus two text-based ones: a coordination-word lexicon applied to agents' notes, and an LLM judge that rates the notes from 0 to 10.
 
 The pipeline is unit-tested with scripted agents. We have not yet run it with a real model. Predictions, recorded before any LLM run:
 
 - **P1.** With the exact price, Δ > 0.3.
-- **P2.** The conditions keep the RL ordering: exact ≥ higher/lower > delayed, noisy > blind.
+- **P2.** The conditions keep the RL ordering: exact ≥ relative > delayed, noisy > blind.
 - **P3.** Blind LLM agents still price above Nash (Δ > 0.1).
 - **P4.** Price level and parallel pricing fail to separate exact-price agents from blind ones, while reaction and probe tests succeed.
 - **P5.** The judge of private notes separates them at least as well as behaviour.
 - **P6.** The message channel raises collusion.
+- **P7.** The horizon is long enough: in the exact-price condition, mean Δ in the last two 20-period blocks before the probe differs by less than 0.1.
+
+**Horizon.** Q-learners train for up to millions of periods, whereas LLM agents adapt in context and condition on a 20-period window, so 100 periods give them several full windows. The analysis reports Δ per 20-period block (`results/llm_summary.md`). A flat low value in the exact-price condition together with a flat blind control is evidence of no collusion; a clear upward slope in the last blocks would mean the horizon was too short, and we would extend it before concluding anything.
 
 ### C. LLM usage statement
 

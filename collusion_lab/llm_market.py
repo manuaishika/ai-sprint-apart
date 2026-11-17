@@ -193,7 +193,7 @@ def parse_score(text):
     return min(float(m.group(1)), 10.0) if m else None
 
 
-def simulate(engine, conditions=CONDITIONS, seeds=8, periods=60, horizon=10, judge=True,
+def simulate(engine, conditions=CONDITIONS, seeds=8, periods=100, horizon=10, judge=True,
              log=print):
     """Run the full grid. Returns a list of run dicts (one per condition x seed x branch)."""
     mk = Market()

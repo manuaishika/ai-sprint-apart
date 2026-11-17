@@ -213,7 +213,7 @@ def detection(out):
     scenarios["Δ-matched (caliper 0.02): γ=0.95 vs. myopic"] = matched
     gap = np.abs(df.loc[neg_idx].delta.values - df.loc[pos_idx].delta.values).mean()
 
-    out.append("## E4: telling collusion from coincidence (200 sessions per condition)\n")
+    out.append(f"## E4: telling collusion from coincidence ({int(df.groupby('label').size().min())} sessions per condition)\n")
     out.append(f"Δ-matched scenario: mean |Δ| gap between matched pairs = {gap:.3f}.\n")
     desc = df.groupby("label").agg(delta=("delta", "mean"), share_high=("delta", lambda d: (d > 0.2).mean()),
                                    punish=("probe_resp1", "mean"), dev_gain=("probe_gain", "mean"),
@@ -294,7 +294,7 @@ def rl_main_figure():
 
     ax = axes[0]
     base = raw[raw.label == "baseline"].delta
-    for lab, col, name in [("noise", BLUE, "random noise"), ("coarsen", ORANGE, "rounding (coarsening)")]:
+    for lab, col, name in [("noise", BLUE, "random noise"), ("coarsen", ORANGE, "absolute bands (coarsening)")]:
         g = iv[iv.intervention.isin([lab, "baseline", "blind"])].sort_values("bits")
         lo, hi = [], []
         for _, r in g.iterrows():
@@ -313,7 +313,7 @@ def rl_main_figure():
     ax.set_ylabel("collusion index Δ")
     ax.set_ylim(-0.1, 1.08)
     ax.legend(loc="upper left", handlelength=1.4)
-    ax.set_title("A   Rounding fails, noise works")
+    ax.set_title("A   Absolute banding fails, noise works")
 
     ax = axes[1]
     for lab, col, xcol, name in [("delay", BLUE, "delay", "observation delay (periods)")]:

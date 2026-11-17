@@ -1,4 +1,4 @@
-# One Bit Is Enough
+# A Few Bits Suffice
 
 **Breaking and auditing tacit collusion between learning pricing agents.**
 Apart Research AI Collusion Research Sprint, 23–25 October 2026. Paper: [`report/report.pdf`](report/report.pdf).
@@ -7,12 +7,12 @@ Apart Research AI Collusion Research Sprint, 23–25 October 2026. Paper: [`repo
 
 Two pricing agents compete in a repeated market. We control what each agent can see of its rival's price (exact, banded, relative to its own price, noisy, delayed, or hidden), and ask four questions:
 
-1. **Which restriction breaks collusion?** Rounding to one bit barely helps; noise and a one-period delay roughly halve it. (Sprint questions 1.5 and 3.2.)
+1. **Which restriction breaks collusion?** Banding the rival's price to one or two well-chosen bits barely helps; noise and a one-period delay roughly halve it, and delay works mainly because fewer agents learn to retaliate. (Sprint questions 1.5 and 3.2.)
 2. **Does collusion survive swapping an agent?** Not across partners, but a new entrant re-learns it. (Question 1.2.)
 3. **What behavioural evidence tells collusion from coincidence?** At equal prices, "prices are high" is a coin flip and "prices move together" points the wrong way; reaction tests work. (Questions 1.3 and 2.3.)
 4. **What do agents intend vs. what do they do?** Reading the agents' learned strategy reveals collusive intent that observation noise hides from their behaviour. For LLM agents, the counterpart is reading their private notes. (Question 2.2.)
 
-Q-learning results cover about 4,300 sessions plus a robustness check across learning parameters. The same experiments are implemented for LLM agents as an extension, with predictions fixed in advance in the paper's Appendix B.
+Q-learning results cover about 10,000 sessions, with robustness checks across learning parameters and training length. The same experiments are implemented for LLM agents as an extension, with predictions fixed in advance in the paper's Appendix B.
 
 ![Q-learning results](results/figures/rl_main.png)
 
@@ -25,7 +25,7 @@ The same market, interventions and probes with LLM pricing agents (Qwen2.5-7B vi
 ```bash
 pip install modal && modal setup
 modal run modal_app.py --seeds 2 --periods 20     # quick check
-modal run modal_app.py                            # full grid: 6 conditions x 10 seeds
+modal run modal_app.py                            # full grid: 6 conditions x 10 seeds x 100 periods
 python -m experiments.analyze_llm
 ```
 
@@ -48,6 +48,8 @@ experiments/
   analyze_llm.py   LLM tables (results/llm_summary.md) and figures, compared with Q-learning predictions
   robustness.py    main levers under alternative learning parameters
   mind_vs_hands.py white-box audit: read agents' learned strategies vs. behavioural detectors
+  mechanisms.py    relative-bit signals, delay mechanism, effect of training length
+  analyze_mech.py  figure and tables for the mechanism experiments
   schematic.py     Figure 1
   style.py         shared figure style
 report/            the submission (Apart template): report.md, report.pdf, report.docx
@@ -59,5 +61,6 @@ tests/             market benchmarks, determinism, prompt and parse checks, coun
 ```bash
 pip install -r requirements.txt
 python -m pytest -q tests
-python -m experiments.run_all && python -m experiments.robustness && python -m experiments.mind_vs_hands && python -m experiments.analyze
+python -m experiments.run_all && python -m experiments.robustness && python -m experiments.mechanisms all
+python -m experiments.mind_vs_hands && python -m experiments.analyze && python -m experiments.analyze_mech
 ```

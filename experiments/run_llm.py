@@ -19,7 +19,7 @@ def main():
     ap.add_argument("--engine", choices=["fake", "anthropic"], default="fake")
     ap.add_argument("--model", default="claude-opus-5-5")
     ap.add_argument("--seeds", type=int, default=10)
-    ap.add_argument("--periods", type=int, default=60)
+    ap.add_argument("--periods", type=int, default=100)
     ap.add_argument("--horizon", type=int, default=10)
     a = ap.parse_args()
     engine = FakeEngine() if a.engine == "fake" else AnthropicEngine(model=a.model)

@@ -123,6 +123,25 @@ def analyse(tag, path, out_md, fig_prefix, mk, pred):
                      "judge": g.judge.mean(), "lexicon": g.lexicon.mean(), "parse_ok": g.parse_ok.mean()})
     lines.append("### Collusion by condition (LLM vs. Q-learning prediction)\n")
     lines.append(pd.DataFrame(rows).to_markdown(index=False, floatfmt=".2f") + "\n")
+    # stationarity: has Δ stopped moving before the probe? (separates "no collusion" from "not enough time")
+    runs_ = [json.loads(l) for l in open(path)]
+    blocks = {}
+    for r in runs_:
+        if r["branch"] != "base":
+            continue
+        p_ = np.array([h["pi"] for h in r["hist"][:r["probe_at"]]])
+        d_ = mk.delta(p_).mean(1)
+        nb = len(d_) // 20
+        blocks.setdefault(r["cond"], []).append([d_[k * 20:(k + 1) * 20].mean() for k in range(nb)])
+    st = []
+    for c in [c for c in ORDER if c in blocks]:
+        b = np.array(blocks[c]).mean(0)
+        slope = float(np.polyfit(np.arange(len(b)), b, 1)[0]) if len(b) > 2 else float("nan")
+        st.append({"condition": c, **{f"periods {20 * k}-{20 * k + 19}": v for k, v in enumerate(b)},
+                   "slope per block": slope})
+    lines.append("### Stationarity: mean Δ per 20-period block (a clearly positive slope in the last blocks "
+                 "means the horizon was too short to rule collusion out)\n")
+    lines.append(pd.DataFrame(st).to_markdown(index=False, floatfmt=".2f") + "\n")
 
     # say vs. do: can an auditor separate agents that see the rival (can condition) from blind ones?
     det = {"D1 price level": ("delta", 1), "D2 parallel pricing": ("level_corr", 1),
