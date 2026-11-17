@@ -47,7 +47,7 @@ Our contributions:
 
 **Remedies.** Johnson, Rhodes and Wildenbeest (2023) design platform rules that discipline pricing algorithms by steering demand. Abada and Lambin (2023) attribute seemingly collusive outcomes to imperfect exploration, which motivates our coincidence controls. We instead compare interventions on the *information channel* on a common scale (bits withheld), and ask which *kind* of information loss matters.
 
-**Detection and collusion carriers.** Work on LLM collusion mostly audits explicit or steganographic messages (Motwani et al., 2024; *Audit the Whisper*, 2025). We study the case where the carrier is the price signal itself and there is no text to inspect. We ask what behavioural evidence suffices. To our knowledge, no prior work evaluates behavioural detectors against labelled non-collusive agents at matched price levels.
+**Detection and collusion carriers.** Work on LLM collusion mostly audits explicit or steganographic messages (Motwani et al., 2024; *Audit the Whisper*, 2025). We study the case where the carrier is the price signal itself and there is no text to inspect. We ask what behavioural evidence suffices. To our knowledge, no prior work evaluates behavioural detectors against labelled non-collusive agents at matched price levels. Concurrent work addresses neighbouring questions for LLM pricing agents: Lee and Park (2026) argue that monitoring chain-of-thought alone cannot be relied on to detect collusion, and Garra (2026) studies mitigations for emergent collusion. Our extension tests a related question, whether agents' written reasoning reveals intent that their prices hide, against a Q-learning counterpart, reading learned strategies, where the answer can be checked directly. We have read only the abstracts of these papers and do not compare results.
 
 ## 3. Methods
 
@@ -244,10 +244,12 @@ manuaishika directed the project and chose the research questions. Implementatio
 - *Audit the Whisper: Detecting Steganographic Collusion in Multi-Agent LLMs* (2025). arXiv:2510.04303. https://arxiv.org/abs/2510.04303
 - Calvano, E., Calzolari, G., Denicolò, V., & Pastorello, S. (2020). Artificial intelligence, algorithmic pricing, and collusion. *American Economic Review*, 110(10), 3267–3297. https://doi.org/10.1257/aer.20190623
 - Fish, S., Gonczarowski, Y. A., & Shorrer, R. I. (2024). Algorithmic collusion by large language models. arXiv:2404.00806. https://arxiv.org/abs/2404.00806
+- Garra, A. (2026). Mitigating emergent collusion in LLM pricing agents. arXiv:2609.13037. https://arxiv.org/abs/2609.13037
 - Hammond, L., et al. (2025). Multi-agent risks from advanced AI. arXiv:2502.14143. https://arxiv.org/abs/2502.14143
 - Harrington, J. E. (2018). Developing competition law for collusion by autonomous artificial agents. *Journal of Competition Law & Economics*, 14(3), 331–363. https://doi.org/10.1093/joclec/nhy016
 - Johnson, J. P., Rhodes, A., & Wildenbeest, M. (2023). Platform design when sellers use pricing algorithms. *Econometrica*, 91(5), 1841–1879. https://doi.org/10.3982/ECTA19978
 - Klein, T. (2021). Autonomous algorithmic collusion: Q-learning under sequential pricing. *RAND Journal of Economics*, 52(3), 538–558. https://doi.org/10.1111/1756-2171.12383
+- Lee, Park (2026). Faithful yet collusive: Why chain-of-thought monitoring cannot detect collusion in LLM pricing agents under oligopolistic competition. arXiv:2609.18346. https://arxiv.org/abs/2609.18346
 - Motwani, S. R., et al. (2024). Secret collusion among AI agents: Multi-agent deception via steganography. arXiv:2402.07510. https://arxiv.org/abs/2402.07510
 
 ## Appendix
