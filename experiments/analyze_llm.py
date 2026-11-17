@@ -44,7 +44,11 @@ def rl_predictions():
     iv = pd.read_csv(os.path.join(R, "interventions_summary.csv"))
     get = lambda lab, dose: float(iv[(iv.intervention == lab) & (iv.dose == dose)].delta_mean.iloc[0])
     noisy = np.interp(0.3, [0.2, 0.4], [get("noise", "eps=0.2"), get("noise", "eps=0.4")])
-    return {"full": get("baseline", "-"), "coarse": get("coarsen", "2 buckets"), "noisy": float(noisy),
+    # the LLM "coarse" condition shows lower / about the same / higher than the agent's OWN price,
+    # so its Q-learning analogue is the relative 3-valued signal, not the absolute half-grid one
+    rel = pd.read_csv(os.path.join(R, "mech_relative.csv"))
+    coarse = float(rel[rel.signal.str.startswith("relative 3")].delta.mean())
+    return {"full": get("baseline", "-"), "coarse": coarse, "noisy": float(noisy),
             "delay": get("delay", "1 periods"), "blind": get("blind", "no rival info")}
 
 

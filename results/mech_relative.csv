@@ -1,0 +1,401 @@
+signal,seed,delta,converged,punish,dev_gain
+absolute 2 bands (rival in upper/lower half of grid),0,0.4840660397981851,True,-1.0285714285714285,-1.3428971773165599
+absolute 2 bands (rival in upper/lower half of grid),1,0.9262514356312023,True,-0.5142857142857142,-4.152657863481345
+absolute 2 bands (rival in upper/lower half of grid),2,0.8889493956089444,True,-0.7714285714285711,-1.6885794215357135
+absolute 2 bands (rival in upper/lower half of grid),3,0.762074076700919,True,-0.34285714285714314,-1.2855692599557804
+absolute 2 bands (rival in upper/lower half of grid),4,0.7972580249699694,True,0.0,0.0
+absolute 2 bands (rival in upper/lower half of grid),5,0.7916724912665278,True,0.0,-3.959726845059942
+absolute 2 bands (rival in upper/lower half of grid),6,0.7939650107238247,True,-0.6857142857142858,-0.8671830141432626
+absolute 2 bands (rival in upper/lower half of grid),7,0.9356564148138369,True,-0.9428571428571426,-0.6202077647220119
+absolute 2 bands (rival in upper/lower half of grid),8,0.7939650107238247,True,-0.25714285714285734,0.8445495942885397
+absolute 2 bands (rival in upper/lower half of grid),9,0.32452522489727575,True,0.0,0.29366926701808294
+absolute 2 bands (rival in upper/lower half of grid),10,0.5305425228773241,True,0.0,0.0
+absolute 2 bands (rival in upper/lower half of grid),11,0.6390143793583649,True,-0.25714285714285684,-1.0122180567190049
+absolute 2 bands (rival in upper/lower half of grid),12,0.7939650107238247,True,-0.5142857142857142,-1.0149230237159235
+absolute 2 bands (rival in upper/lower half of grid),13,0.7853134641431271,True,-0.42857142857142894,-2.47738331225122
+absolute 2 bands (rival in upper/lower half of grid),14,0.8479848367882695,True,-0.42857142857142894,-3.885280346085093
+absolute 2 bands (rival in upper/lower half of grid),15,0.8853796817334455,True,-0.8571428571428569,-2.2166586183974695
+absolute 2 bands (rival in upper/lower half of grid),16,0.9072403657895489,True,-0.6857142857142858,-9.127090493319699
+absolute 2 bands (rival in upper/lower half of grid),17,-0.03024877549835793,True,0.0,-0.0403025841397648
+absolute 2 bands (rival in upper/lower half of grid),18,0.8054151372726934,True,0.0,-0.6315326164892126
+absolute 2 bands (rival in upper/lower half of grid),19,0.43115606085410796,True,0.0,0.0
+absolute 2 bands (rival in upper/lower half of grid),20,0.867588225926013,True,-0.6,-6.434909534953708
+absolute 2 bands (rival in upper/lower half of grid),21,0.7311881695912887,True,-0.6857142857142858,-1.3505636623886506
+absolute 2 bands (rival in upper/lower half of grid),22,0.8479848367882695,True,-0.7714285714285716,-3.5483508347049395
+absolute 2 bands (rival in upper/lower half of grid),23,0.796766980033679,True,-0.34285714285714264,-1.5330719605723973
+absolute 2 bands (rival in upper/lower half of grid),24,0.7939650107238247,True,-0.42857142857142894,-3.2921903565577404
+absolute 2 bands (rival in upper/lower half of grid),25,0.7939650107238247,True,-0.6857142857142858,-2.780917396343212
+absolute 2 bands (rival in upper/lower half of grid),26,0.6882841674096649,True,0.0,-0.1649774128913623
+absolute 2 bands (rival in upper/lower half of grid),27,0.8283814476505258,True,-0.5142857142857147,-0.23804135065113521
+absolute 2 bands (rival in upper/lower half of grid),28,0.21445282167136565,True,0.0,-0.19140225210628684
+absolute 2 bands (rival in upper/lower half of grid),29,0.8617211313869573,True,-0.6,-2.5146613701007836
+absolute 2 bands (rival in upper/lower half of grid),30,0.9258616556465783,True,-0.5142857142857142,-0.6187397046045412
+absolute 2 bands (rival in upper/lower half of grid),31,0.822806183155256,True,-0.25714285714285734,-0.4679819513674002
+absolute 2 bands (rival in upper/lower half of grid),32,0.648220490859999,True,-0.6857142857142858,-0.8097566396816767
+absolute 2 bands (rival in upper/lower half of grid),33,0.867588225926013,True,-0.6857142857142858,-3.7038949311989984
+absolute 2 bands (rival in upper/lower half of grid),34,0.851647355586686,True,-0.6857142857142858,-1.5594217047959253
+absolute 2 bands (rival in upper/lower half of grid),35,0.821273525481398,True,0.0,0.10583493559247636
+absolute 2 bands (rival in upper/lower half of grid),36,0.6042339910659384,True,-0.9428571428571426,-1.6570250160725455
+absolute 2 bands (rival in upper/lower half of grid),37,0.7332650309197647,True,-0.9428571428571426,-0.163022865620388
+absolute 2 bands (rival in upper/lower half of grid),38,0.4773469088046368,True,-0.42857142857142894,-2.0842330742130066
+absolute 2 bands (rival in upper/lower half of grid),39,0.7939650107238247,True,0.0,0.20642816543521197
+absolute 2 bands (rival in upper/lower half of grid),40,0.8763343766684293,True,-0.6857142857142858,-2.0100520925339036
+absolute 2 bands (rival in upper/lower half of grid),41,0.8416307649437162,True,0.25714285714285684,-1.3260645021878887
+absolute 2 bands (rival in upper/lower half of grid),42,0.9100902267716771,True,-0.9428571428571426,-2.1222733715320206
+absolute 2 bands (rival in upper/lower half of grid),43,0.7766619175624304,True,0.0,-0.136257593433038
+absolute 2 bands (rival in upper/lower half of grid),44,0.6882841674096649,True,0.0,-0.07517052036761042
+absolute 2 bands (rival in upper/lower half of grid),45,0.8713074783404204,True,-0.34285714285714314,-0.25272916527554323
+absolute 2 bands (rival in upper/lower half of grid),46,0.7766619175624304,True,0.0,0.08532379460415662
+absolute 2 bands (rival in upper/lower half of grid),47,0.9401115501661954,True,-0.9428571428571426,-0.38623976846084296
+absolute 2 bands (rival in upper/lower half of grid),48,0.7939650107238247,True,-0.6,-3.0617832940355236
+absolute 2 bands (rival in upper/lower half of grid),49,0.8165747519479387,True,-0.17142857142857107,0.09187470981911747
+absolute 2 bands (rival in upper/lower half of grid),50,0.9009692489682519,True,-0.34285714285714314,-0.6187278854356718
+absolute 2 bands (rival in upper/lower half of grid),51,0.8901777597015869,True,-0.9428571428571432,-0.678012055426939
+absolute 2 bands (rival in upper/lower half of grid),52,0.6596393195054719,True,-0.6857142857142853,-1.795322561119238
+absolute 2 bands (rival in upper/lower half of grid),53,0.8247320615310116,True,-0.7714285714285716,-5.5075797871596714
+absolute 2 bands (rival in upper/lower half of grid),54,0.6492870700537464,True,-0.42857142857142894,-0.8132289391699552
+absolute 2 bands (rival in upper/lower half of grid),55,0.8283814476505258,True,-0.42857142857142894,-3.12264903831919
+absolute 2 bands (rival in upper/lower half of grid),56,0.8617211313869575,True,-0.42857142857142894,-2.2980483368448037
+absolute 2 bands (rival in upper/lower half of grid),57,0.7047451521977341,True,-0.5142857142857142,-2.144348559322897
+absolute 2 bands (rival in upper/lower half of grid),58,0.6882841674096649,True,0.0,-0.1649774128913623
+absolute 2 bands (rival in upper/lower half of grid),59,0.8950608151233898,True,-0.6857142857142858,-1.3186024940970467
+absolute 2 bands (rival in upper/lower half of grid),60,0.7766619175624304,True,0.0,-0.0759850789741857
+absolute 2 bands (rival in upper/lower half of grid),61,0.851647355586686,True,-0.6857142857142858,-1.6212563225419705
+absolute 2 bands (rival in upper/lower half of grid),62,0.8364091647239975,True,-0.9428571428571426,-1.2536333484826476
+absolute 2 bands (rival in upper/lower half of grid),63,0.3168491388208712,True,0.0,0.204480541554775
+absolute 2 bands (rival in upper/lower half of grid),64,0.8617211313869575,True,-0.7714285714285711,-2.4617553191135353
+absolute 2 bands (rival in upper/lower half of grid),65,0.8111732291871749,True,-0.7714285714285716,-2.3238598568400075
+absolute 2 bands (rival in upper/lower half of grid),66,0.5685176434298818,True,0.0,1.2148799910107813
+absolute 2 bands (rival in upper/lower half of grid),67,0.7939650107238247,True,-0.5142857142857142,-0.4855398473826799
+absolute 2 bands (rival in upper/lower half of grid),68,0.8283814476505258,True,-0.6857142857142858,-1.0944061338703326
+absolute 2 bands (rival in upper/lower half of grid),69,0.7953705091784316,True,-0.25714285714285734,-0.7269488152697783
+absolute 2 bands (rival in upper/lower half of grid),70,0.867588225926013,True,-0.7714285714285716,-1.952697085826214
+absolute 2 bands (rival in upper/lower half of grid),71,0.7939650107238247,True,-0.42857142857142894,-0.9656593971173849
+absolute 2 bands (rival in upper/lower half of grid),72,0.8207660912740917,True,-0.5142857142857147,-1.0871096004578098
+absolute 2 bands (rival in upper/lower half of grid),73,0.6882841674096649,True,0.0,0.050879503508212076
+absolute 2 bands (rival in upper/lower half of grid),74,0.6159889672015519,True,-0.34285714285714264,-0.5066587183649115
+absolute 2 bands (rival in upper/lower half of grid),75,0.7939650107238247,True,-0.6857142857142858,-1.4733568029548845
+absolute 2 bands (rival in upper/lower half of grid),76,0.7939650107238247,True,-0.6857142857142858,-0.9958878617626631
+absolute 2 bands (rival in upper/lower half of grid),77,0.6552493675498166,True,-0.9428571428571426,-0.7514779501085567
+absolute 2 bands (rival in upper/lower half of grid),78,0.7939650107238247,True,-0.34285714285714314,-2.77988036711516
+absolute 2 bands (rival in upper/lower half of grid),79,0.6021442150985052,True,-0.6857142857142858,-2.2922661969396634
+absolute 2 bands (rival in upper/lower half of grid),80,0.7926932247957204,True,-0.5142857142857142,-0.020532652753923335
+absolute 2 bands (rival in upper/lower half of grid),81,0.7679573911067199,True,-0.5142857142857142,-2.020151925837395
+absolute 2 bands (rival in upper/lower half of grid),82,0.7645278533277214,True,0.0,0.13015548139849475
+absolute 2 bands (rival in upper/lower half of grid),83,0.6947965380707689,True,0.0,0.0690148490266279
+absolute 2 bands (rival in upper/lower half of grid),84,0.539764849948423,True,0.0,-1.172745896400216
+absolute 2 bands (rival in upper/lower half of grid),85,0.8383571523785223,True,-0.5142857142857142,-2.1393142769258713
+absolute 2 bands (rival in upper/lower half of grid),86,0.7939650107238247,True,-0.34285714285714314,-0.14158165341110232
+absolute 2 bands (rival in upper/lower half of grid),87,0.4000231829044195,True,0.0,-0.7251844322069464
+absolute 2 bands (rival in upper/lower half of grid),88,0.7939650107238247,True,-0.6,-2.800772619501952
+absolute 2 bands (rival in upper/lower half of grid),89,0.7939650107238247,True,-0.6,-3.2015995679455846
+absolute 2 bands (rival in upper/lower half of grid),90,0.829417637854787,True,-0.5142857142857142,-0.33658579360733143
+absolute 2 bands (rival in upper/lower half of grid),91,0.867588225926013,True,0.17142857142857107,-0.01207408500041263
+absolute 2 bands (rival in upper/lower half of grid),92,0.9744354051734204,True,-0.8571428571428569,-1.8159170725486762
+absolute 2 bands (rival in upper/lower half of grid),93,0.8516473555866919,True,-0.7714285714285711,-1.4210681596170267
+absolute 2 bands (rival in upper/lower half of grid),94,0.8005163603826819,True,0.0,0.2114588214705439
+absolute 2 bands (rival in upper/lower half of grid),95,0.8283814476505258,True,-0.5142857142857147,-1.817967736848374
+absolute 2 bands (rival in upper/lower half of grid),96,0.8733540853550384,True,-0.25714285714285734,-0.04733131345169884
+absolute 2 bands (rival in upper/lower half of grid),97,0.4967874932949401,True,-0.6,-1.451710215387721
+absolute 2 bands (rival in upper/lower half of grid),98,0.8305625428791956,True,-0.42857142857142844,-0.15930000067045677
+absolute 2 bands (rival in upper/lower half of grid),99,0.3696797414630538,True,0.0,-0.3446967678682136
+relative 2 values (rival >= my price?),0,0.5232169845230795,True,-0.34285714285714264,-0.9222898582038302
+relative 2 values (rival >= my price?),1,0.6282160669565462,True,-0.42857142857142894,-2.610377100627564
+relative 2 values (rival >= my price?),2,0.4976346301490147,True,-0.08571428571428578,-0.27581471719545436
+relative 2 values (rival >= my price?),3,0.31012193136558636,True,-0.17142857142857107,-0.26092556740235984
+relative 2 values (rival >= my price?),4,0.4976346301490147,True,-0.17142857142857157,-0.7719567673390092
+relative 2 values (rival >= my price?),5,0.5396690808555571,True,-0.0857142857142853,-0.5288701874040498
+relative 2 values (rival >= my price?),6,0.6022225461133421,True,-0.5142857142857142,-1.78544479764343
+relative 2 values (rival >= my price?),7,0.32561870355413647,True,-0.34285714285714264,-0.5352135990751304
+relative 2 values (rival >= my price?),8,0.21335044616770432,True,-0.08571428571428578,-0.8002632228894749
+relative 2 values (rival >= my price?),9,0.6523017520803338,True,-0.17142857142857107,-1.2741007001269054
+relative 2 values (rival >= my price?),10,-0.02376544901079564,True,0.0,0.0
+relative 2 values (rival >= my price?),11,0.492958716494122,True,-0.42857142857142844,-1.5745530397772365
+relative 2 values (rival >= my price?),12,0.653816572921009,True,0.0,0.12812371013369397
+relative 2 values (rival >= my price?),13,0.6479247659342193,True,-0.5142857142857142,-1.1662367186560076
+relative 2 values (rival >= my price?),14,0.9685990102408492,True,-0.5142857142857142,-1.2947957279445799
+relative 2 values (rival >= my price?),15,0.6860022476615799,True,0.0,-0.8899878498019457
+relative 2 values (rival >= my price?),16,0.5198288585839861,True,0.0,0.0
+relative 2 values (rival >= my price?),17,0.3146543912950295,True,-0.17142857142857107,-0.27894656608636237
+relative 2 values (rival >= my price?),18,0.8501156999652105,True,-0.6857142857142858,-1.3550099978498258
+relative 2 values (rival >= my price?),19,0.5793239073802416,True,-0.34285714285714314,-1.165364815731069
+relative 2 values (rival >= my price?),20,0.34608130380833474,True,-0.08571428571428578,-1.40920403076479
+relative 2 values (rival >= my price?),21,0.4807064321878646,True,0.0,-0.5305490799139256
+relative 2 values (rival >= my price?),22,0.867588225926013,True,-0.6857142857142858,-2.441056665070368
+relative 2 values (rival >= my price?),23,0.3617977286026877,True,-0.5142857142857142,-0.8209507374751183
+relative 2 values (rival >= my price?),24,0.4976346301490147,True,-0.25714285714285684,-1.277957326943948
+relative 2 values (rival >= my price?),25,0.3783520685294683,True,-0.34285714285714264,-1.1670613373921912
+relative 2 values (rival >= my price?),26,0.3252489543061253,True,0.7714285714285711,-0.0005749988359068322
+relative 2 values (rival >= my price?),27,0.6890429438416891,True,0.0,-2.505533157476078
+relative 2 values (rival >= my price?),28,0.7939650107238247,True,-0.42857142857142894,-1.7368869956791917
+relative 2 values (rival >= my price?),29,0.6075653644587747,True,-0.34285714285714264,-0.5746078772942445
+relative 2 values (rival >= my price?),30,0.7766619175624304,True,-0.5142857142857142,-0.20229915606017715
+relative 2 values (rival >= my price?),31,0.2805393227130878,True,-0.17142857142857107,-0.5321331899617753
+relative 2 values (rival >= my price?),32,0.6457998204364188,True,-0.17142857142857157,-0.7782990178718268
+relative 2 values (rival >= my price?),33,0.6013079559090766,True,0.0,0.10092635974041758
+relative 2 values (rival >= my price?),34,0.5232169845230795,True,-0.34285714285714264,-0.5983533798805347
+relative 2 values (rival >= my price?),35,0.15729906293069296,True,0.0857142857142853,0.08942606311746329
+relative 2 values (rival >= my price?),36,0.3423811903142717,True,0.0,0.009216263409953067
+relative 2 values (rival >= my price?),37,0.3783520685294683,True,-0.34285714285714264,-0.9605709943749683
+relative 2 values (rival >= my price?),38,0.46503847139357857,True,-0.6857142857142858,-1.8083452920878147
+relative 2 values (rival >= my price?),39,0.6370780888483836,True,0.0,-1.2475339798394924
+relative 2 values (rival >= my price?),40,0.3783520685294683,True,-0.25714285714285684,-1.0591845692989459
+relative 2 values (rival >= my price?),41,0.1165789609698241,True,0.0,0.0
+relative 2 values (rival >= my price?),42,0.6075653644587747,True,-0.25714285714285734,-0.2749888183796464
+relative 2 values (rival >= my price?),43,0.42822422402153776,True,0.0,-2.5429337607975544
+relative 2 values (rival >= my price?),44,0.5396690808555571,True,0.0,-0.47908873446042277
+relative 2 values (rival >= my price?),45,0.6858865031911079,True,-0.25714285714285684,-0.9881774840315097
+relative 2 values (rival >= my price?),46,0.653816572921009,True,0.0,-0.9631449541626139
+relative 2 values (rival >= my price?),47,0.6022225461133421,True,-0.6,-3.2043479305323825
+relative 2 values (rival >= my price?),48,0.43380566656795416,True,-0.08571428571428578,-1.4713442595394544
+relative 2 values (rival >= my price?),49,0.46230129890370064,True,0.0,0.17070387723833957
+relative 2 values (rival >= my price?),50,0.8078613931777345,True,0.0,-0.7710238018869049
+relative 2 values (rival >= my price?),51,0.4713847293287434,True,-0.25714285714285684,-1.602787320180323
+relative 2 values (rival >= my price?),52,0.43380566656795416,True,-0.17142857142857107,-0.24146634632980263
+relative 2 values (rival >= my price?),53,0.3783520685294683,True,-0.17142857142857107,-0.5491529868695331
+relative 2 values (rival >= my price?),54,0.5487993388971449,True,0.0,0.04084775482597795
+relative 2 values (rival >= my price?),55,0.01819071813884577,True,0.0,0.03665672236421385
+relative 2 values (rival >= my price?),56,0.492958716494122,True,-0.25714285714285684,-0.7875360565073498
+relative 2 values (rival >= my price?),57,0.7939650107238247,True,-0.6,-2.1178050247921036
+relative 2 values (rival >= my price?),58,0.49301399483100383,True,0.0,0.006245931237976682
+relative 2 values (rival >= my price?),59,0.5232169845230795,True,-0.42857142857142844,-0.7362508559712896
+relative 2 values (rival >= my price?),60,0.07697017820628205,True,0.0,0.0
+relative 2 values (rival >= my price?),61,-0.02376544901079564,True,0.0,0.0
+relative 2 values (rival >= my price?),62,0.4976346301490147,True,-0.34285714285714264,-1.2530230281928476
+relative 2 values (rival >= my price?),63,0.5154964591055308,True,0.0,-1.3569488574628137
+relative 2 values (rival >= my price?),64,0.24163200193875717,True,-0.34285714285714264,-0.6457142799239833
+relative 2 values (rival >= my price?),65,0.6075653644587747,True,-0.5142857142857142,-1.2485154496288904
+relative 2 values (rival >= my price?),66,0.8812820104823381,True,-0.6,-4.316826629622129
+relative 2 values (rival >= my price?),67,0.3423811903142717,True,0.0,0.009216263409953067
+relative 2 values (rival >= my price?),68,0.3783520685294683,True,-0.34285714285714264,-1.6194180153938684
+relative 2 values (rival >= my price?),69,0.4939651515635658,True,0.0,0.010714185546986716
+relative 2 values (rival >= my price?),70,0.4313900429176114,True,-0.25714285714285684,-0.7758307347199869
+relative 2 values (rival >= my price?),71,0.2509567140605898,True,-0.25714285714285684,-0.3982034160730169
+relative 2 values (rival >= my price?),72,0.1165789609698241,True,0.0,0.0
+relative 2 values (rival >= my price?),73,0.1165789609698241,True,0.0,0.0
+relative 2 values (rival >= my price?),74,0.3761349951474293,True,0.17142857142857157,-0.7069380655718217
+relative 2 values (rival >= my price?),75,0.7766619175624304,True,0.0,0.08532379460415662
+relative 2 values (rival >= my price?),76,0.683930701093357,True,0.0,0.050879503508212076
+relative 2 values (rival >= my price?),77,-0.02376544901079564,True,0.0,0.0
+relative 2 values (rival >= my price?),78,0.5538698898092169,True,0.0,0.05312803942847489
+relative 2 values (rival >= my price?),79,0.8950608151233898,True,0.0,0.4460524270130372
+relative 2 values (rival >= my price?),80,0.36401045581653313,True,-0.0857142857142853,-0.3388696274710456
+relative 2 values (rival >= my price?),81,0.7068104620776696,True,-0.42857142857142844,-1.9513353497579549
+relative 2 values (rival >= my price?),82,0.4976346301490147,True,-0.34285714285714264,-0.664028844041785
+relative 2 values (rival >= my price?),83,0.7435271027117976,True,-0.25714285714285734,-0.3452090018142546
+relative 2 values (rival >= my price?),84,0.8812820104823381,True,-0.8571428571428569,-3.749851876190856
+relative 2 values (rival >= my price?),85,0.2509567140605898,True,-0.17142857142857107,-0.6364151339241257
+relative 2 values (rival >= my price?),86,0.7068104620776696,True,-0.6,-4.273851879404361
+relative 2 values (rival >= my price?),87,0.492958716494122,True,-0.25714285714285684,-0.38278266819858164
+relative 2 values (rival >= my price?),88,0.4976346301490147,True,-0.42857142857142844,-1.3823763792512975
+relative 2 values (rival >= my price?),89,0.653816572921009,True,0.0,0.10266308375037539
+relative 2 values (rival >= my price?),90,0.5160843207252374,True,0.0,0.0
+relative 2 values (rival >= my price?),91,0.6597478194707499,True,-0.42857142857142844,-0.5144217820063827
+relative 2 values (rival >= my price?),92,0.6075653644587747,True,-0.25714285714285734,-2.3981075944046157
+relative 2 values (rival >= my price?),93,0.43380566656795416,True,0.0,0.01843295092960246
+relative 2 values (rival >= my price?),94,0.6097778621507192,True,0.34285714285714314,-0.3801915419850839
+relative 2 values (rival >= my price?),95,0.37429567210480275,True,0.0,0.0
+relative 2 values (rival >= my price?),96,0.4379933493392415,True,-0.34285714285714264,-1.1271682443674167
+relative 2 values (rival >= my price?),97,0.4919560933500391,True,0.0,-0.978574210378569
+relative 2 values (rival >= my price?),98,0.5487993388971449,True,0.0,0.04084775482597795
+relative 2 values (rival >= my price?),99,0.4976346301490147,True,-0.42857142857142844,-1.0412766314495334
+relative 3 values (rival lower / equal / higher than mine),0,0.7375767951923932,True,-0.5142857142857147,-2.270279820711033
+relative 3 values (rival lower / equal / higher than mine),1,0.7068104620776696,True,-0.6,-1.3274149036590643
+relative 3 values (rival lower / equal / higher than mine),2,0.9262514356312023,True,-0.8571428571428569,-1.4159788776921343
+relative 3 values (rival lower / equal / higher than mine),3,0.9262514356312023,True,-0.7714285714285711,-0.5471099281353301
+relative 3 values (rival lower / equal / higher than mine),4,0.7939650107238247,True,-0.6,-0.5704157713126502
+relative 3 values (rival lower / equal / higher than mine),5,0.7939650107238247,True,-0.6,-1.671030053718848
+relative 3 values (rival lower / equal / higher than mine),6,0.7007651875912988,True,-0.5142857142857142,-1.0581084053307832
+relative 3 values (rival lower / equal / higher than mine),7,0.6075653644587747,True,-0.25714285714285734,-2.583024082263561
+relative 3 values (rival lower / equal / higher than mine),8,0.9685990102408492,True,-0.6,-2.3312762962252265
+relative 3 values (rival lower / equal / higher than mine),9,0.7939650107238247,True,-0.6,-1.1817566812156073
+relative 3 values (rival lower / equal / higher than mine),10,0.6457998204364188,True,-0.34285714285714264,-0.9193248749354932
+relative 3 values (rival lower / equal / higher than mine),11,0.6523017520803338,True,-0.5142857142857142,-0.41993771015041154
+relative 3 values (rival lower / equal / higher than mine),12,0.6148382908331746,True,0.0,-0.9378186579588281
+relative 3 values (rival lower / equal / higher than mine),13,0.714256217836738,True,0.0,-0.21367308296079232
+relative 3 values (rival lower / equal / higher than mine),14,0.9262514356312023,True,-0.8571428571428569,-3.391412295793165
+relative 3 values (rival lower / equal / higher than mine),15,0.738953215127501,True,-0.08571428571428578,-0.20816883799361083
+relative 3 values (rival lower / equal / higher than mine),16,0.6075653644587747,True,-0.25714285714285734,-1.4974671419533494
+relative 3 values (rival lower / equal / higher than mine),17,0.7007651875912988,True,-0.5142857142857142,-0.5505577038017413
+relative 3 values (rival lower / equal / higher than mine),18,0.962992627392559,True,-0.6,-1.807328363034148
+relative 3 values (rival lower / equal / higher than mine),19,0.5525999973038952,True,-0.5142857142857142,-0.6755590870229151
+relative 3 values (rival lower / equal / higher than mine),20,0.5525999973038952,True,-0.42857142857142844,-1.0560981567601808
+relative 3 values (rival lower / equal / higher than mine),21,0.7068104620776696,True,-0.5142857142857142,-0.5467399819511748
+relative 3 values (rival lower / equal / higher than mine),22,0.867588225926013,True,-0.6857142857142858,-1.6575952936692555
+relative 3 values (rival lower / equal / higher than mine),23,0.6571879132682222,True,-0.25714285714285734,-2.1038506931078906
+relative 3 values (rival lower / equal / higher than mine),24,0.7068104620776696,True,-0.6,-2.2961986026170935
+relative 3 values (rival lower / equal / higher than mine),25,0.6457998204364188,True,-0.17142857142857157,-1.317919434735343
+relative 3 values (rival lower / equal / higher than mine),26,0.6075653644587747,True,-0.42857142857142844,-0.8217267187295468
+relative 3 values (rival lower / equal / higher than mine),27,0.6075653644587747,True,-0.5142857142857142,-0.6380269529201178
+relative 3 values (rival lower / equal / higher than mine),28,0.9685990102408492,True,-0.8571428571428569,-1.7724656216474768
+relative 3 values (rival lower / equal / higher than mine),29,0.6075653644587747,True,-0.5142857142857142,-1.3348086925337916
+relative 3 values (rival lower / equal / higher than mine),30,0.6075653644587747,True,-0.25714285714285734,-0.23890135682735456
+relative 3 values (rival lower / equal / higher than mine),31,0.6775904215389277,True,0.0,0.22404274581932335
+relative 3 values (rival lower / equal / higher than mine),32,0.7939650107238247,True,-0.42857142857142894,-0.3094297163948203
+relative 3 values (rival lower / equal / higher than mine),33,0.7068104620776696,True,-0.5142857142857142,-1.3767208561223698
+relative 3 values (rival lower / equal / higher than mine),34,0.6042605030031094,True,-0.42857142857142844,-1.0388519232018327
+relative 3 values (rival lower / equal / higher than mine),35,0.9685990102408492,True,-0.8571428571428569,-1.495069583511115
+relative 3 values (rival lower / equal / higher than mine),36,0.7199148782374273,True,-0.25714285714285684,-0.2909436645892165
+relative 3 values (rival lower / equal / higher than mine),37,0.7939650107238247,True,-0.5142857142857142,-1.76871530844879
+relative 3 values (rival lower / equal / higher than mine),38,0.7939650107238247,True,-0.6,-1.7086021349997185
+relative 3 values (rival lower / equal / higher than mine),39,0.7068104620776696,True,-0.34285714285714314,-0.6953232730639558
+relative 3 values (rival lower / equal / higher than mine),40,0.5525999973038952,True,-0.5142857142857142,-0.6755590870229151
+relative 3 values (rival lower / equal / higher than mine),41,0.9262514356312023,True,-0.5142857142857142,-0.7470759850031942
+relative 3 values (rival lower / equal / higher than mine),42,0.6571879132682222,True,-0.42857142857142844,-0.48600049242046706
+relative 3 values (rival lower / equal / higher than mine),43,0.5525999973038952,True,-0.25714285714285684,-0.29279467442546236
+relative 3 values (rival lower / equal / higher than mine),44,0.7939650107238247,True,-0.6,-0.5704157713126502
+relative 3 values (rival lower / equal / higher than mine),45,0.7939650107238247,True,-0.5142857142857142,-0.4370885818310587
+relative 3 values (rival lower / equal / higher than mine),46,0.7939650107238247,True,-0.6,-1.4606325411875671
+relative 3 values (rival lower / equal / higher than mine),47,0.7399949528383314,True,-0.34285714285714264,-0.31885967358590106
+relative 3 values (rival lower / equal / higher than mine),48,0.6571879132682222,True,-0.5142857142857142,-1.0036336035545028
+relative 3 values (rival lower / equal / higher than mine),49,0.5861585396266441,True,-0.25714285714285684,-0.8560945164914784
+relative 3 values (rival lower / equal / higher than mine),50,0.6075653644587747,True,-0.5142857142857142,-0.6380269529201178
+relative 3 values (rival lower / equal / higher than mine),51,0.867588225926013,True,-0.6,-2.430587498065964
+relative 3 values (rival lower / equal / higher than mine),52,0.7068104620776696,True,-0.17142857142857157,-0.4717914271951732
+relative 3 values (rival lower / equal / higher than mine),53,0.9543033555794223,True,-0.6,-1.649283389372876
+relative 3 values (rival lower / equal / higher than mine),54,0.7007651875912988,True,-0.6,-0.6837160095915998
+relative 3 values (rival lower / equal / higher than mine),55,0.7068104620776696,True,-0.5142857142857142,-1.4807473762269319
+relative 3 values (rival lower / equal / higher than mine),56,0.6657154458064163,True,-0.42857142857142844,-1.1544242605332748
+relative 3 values (rival lower / equal / higher than mine),57,0.867588225926013,True,-0.6857142857142858,-0.5745244391232704
+relative 3 values (rival lower / equal / higher than mine),58,0.7068104620776696,True,-0.6,-1.2307235259291407
+relative 3 values (rival lower / equal / higher than mine),59,0.6028866437236193,True,0.0,0.11218166891455468
+relative 3 values (rival lower / equal / higher than mine),60,0.7068104620776696,True,-0.5142857142857142,-0.5467399819511748
+relative 3 values (rival lower / equal / higher than mine),61,0.7068104620776696,True,-0.6,-1.8066489540368709
+relative 3 values (rival lower / equal / higher than mine),62,0.7381211439217651,True,-0.25714285714285734,-0.775837547077486
+relative 3 values (rival lower / equal / higher than mine),63,0.7871993440018411,True,-0.5142857142857142,-0.9797599253410096
+relative 3 values (rival lower / equal / higher than mine),64,0.7068104620776696,True,-0.5142857142857142,-1.2791635550026328
+relative 3 values (rival lower / equal / higher than mine),65,0.6571879132682222,True,-0.5142857142857142,-0.6009191883777893
+relative 3 values (rival lower / equal / higher than mine),66,0.7068104620776696,True,-0.42857142857142844,-0.9104774527617282
+relative 3 values (rival lower / equal / higher than mine),67,0.6622373658521006,True,-0.6,-1.727413914482512
+relative 3 values (rival lower / equal / higher than mine),68,0.656042467623343,True,-0.8571428571428569,-2.551917457276683
+relative 3 values (rival lower / equal / higher than mine),69,0.7068104620776696,True,-0.42857142857142844,-0.4791687154763071
+relative 3 values (rival lower / equal / higher than mine),70,0.7068104620776696,True,-0.42857142857142844,-0.9723719228157996
+relative 3 values (rival lower / equal / higher than mine),71,0.8936929742882895,True,-0.7714285714285716,-2.427122539305158
+relative 3 values (rival lower / equal / higher than mine),72,0.7068104620776696,True,-0.6,-1.2835454215686266
+relative 3 values (rival lower / equal / higher than mine),73,0.956558162933907,True,-1.2,-1.1127428543815414
+relative 3 values (rival lower / equal / higher than mine),74,0.7253171781762946,True,-0.34285714285714314,-0.24213315334767802
+relative 3 values (rival lower / equal / higher than mine),75,0.8307766183249191,True,-0.6,-2.0601922226782365
+relative 3 values (rival lower / equal / higher than mine),76,0.7331168201949326,True,0.0,0.0
+relative 3 values (rival lower / equal / higher than mine),77,0.8307766183249191,True,-0.6,-1.0166513156079293
+relative 3 values (rival lower / equal / higher than mine),78,0.9685990102408492,True,-0.8571428571428569,-1.0630579858418903
+relative 3 values (rival lower / equal / higher than mine),79,0.5457362288806858,True,-0.42857142857142844,-0.6681366635756816
+relative 3 values (rival lower / equal / higher than mine),80,0.6075653644587747,True,-0.34285714285714264,-0.825908720519851
+relative 3 values (rival lower / equal / higher than mine),81,0.7068104620776696,True,-0.42857142857142844,-2.1660323320901504
+relative 3 values (rival lower / equal / higher than mine),82,0.5982103719245113,True,-0.17142857142857157,-0.9435568636180898
+relative 3 values (rival lower / equal / higher than mine),83,0.7503877364007472,True,-0.5142857142857142,-1.6007534386018216
+relative 3 values (rival lower / equal / higher than mine),84,0.7068104620776696,True,-0.5142857142857142,-0.6989550119156226
+relative 3 values (rival lower / equal / higher than mine),85,0.7068104620776696,True,-0.42857142857142844,-0.9723719228157996
+relative 3 values (rival lower / equal / higher than mine),86,0.6075653644587747,True,-0.34285714285714264,-0.38912753742652056
+relative 3 values (rival lower / equal / higher than mine),87,0.7068104620776696,True,-0.42857142857142844,-0.4134127924695831
+relative 3 values (rival lower / equal / higher than mine),88,0.7871993440018411,True,-0.5142857142857142,-1.1418063352130594
+relative 3 values (rival lower / equal / higher than mine),89,0.7880821873498127,True,-0.42857142857142844,-0.3421047164915708
+relative 3 values (rival lower / equal / higher than mine),90,0.6075653644587747,True,-0.42857142857142844,-0.4998874117451845
+relative 3 values (rival lower / equal / higher than mine),91,0.867588225926013,True,-0.5142857142857147,-0.906280831502996
+relative 3 values (rival lower / equal / higher than mine),92,0.867588225926013,True,-0.6857142857142858,-0.5745244391232704
+relative 3 values (rival lower / equal / higher than mine),93,0.6075653644587747,True,-0.42857142857142844,-0.7461559616190461
+relative 3 values (rival lower / equal / higher than mine),94,0.6075653644587747,True,-0.34285714285714264,-1.0119059587012962
+relative 3 values (rival lower / equal / higher than mine),95,0.4976346301490147,True,-0.17142857142857157,-0.5545153188101442
+relative 3 values (rival lower / equal / higher than mine),96,0.7007651875912988,True,-0.6857142857142858,-1.503628339517557
+relative 3 values (rival lower / equal / higher than mine),97,0.7939650107238247,True,-0.42857142857142894,-0.7976560425785514
+relative 3 values (rival lower / equal / higher than mine),98,0.9262514356312023,True,-0.6857142857142853,-1.6800232899111536
+relative 3 values (rival lower / equal / higher than mine),99,0.7068104620776696,True,-0.6,-1.6216094143930313
+absolute 1 band (no information),0,-0.028271953510265603,True,0.0,0.0066769290577654815
+absolute 1 band (no information),1,0.03476264404717132,True,0.0,0.009099007327458492
+absolute 1 band (no information),2,-0.06278392605897547,True,0.0,0.004971969675340682
+absolute 1 band (no information),3,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),4,-0.02376544901079564,True,0.0,0.0
+absolute 1 band (no information),5,0.007388278931336341,True,0.0,-0.11832532089936094
+absolute 1 band (no information),6,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),7,-0.06278392605897547,True,0.0,0.004971969675340682
+absolute 1 band (no information),8,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),9,-0.06278392605897547,True,0.0,0.004971969675340682
+absolute 1 band (no information),10,0.43380566656795416,True,0.0,0.0894633011550318
+absolute 1 band (no information),11,-0.06278392605897547,True,0.0,0.004971969675340682
+absolute 1 band (no information),12,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),13,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),14,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),15,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),16,-0.02376544901079564,True,0.0,0.0
+absolute 1 band (no information),17,-0.02376544901079564,True,0.0,0.0
+absolute 1 band (no information),18,-0.02376544901079564,True,0.0,0.0
+absolute 1 band (no information),19,-0.02376544901079564,True,0.0,0.0
+absolute 1 band (no information),20,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),21,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),22,-0.06278392605897547,True,0.0,0.004971969675340682
+absolute 1 band (no information),23,-0.06278392605897547,True,0.0,0.004971969675340682
+absolute 1 band (no information),24,0.023574171302522963,True,0.0,0.0
+absolute 1 band (no information),25,0.05758929354487334,True,0.0,0.10388735691658332
+absolute 1 band (no information),26,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),27,0.004464368034955469,True,0.0,0.0
+absolute 1 band (no information),28,0.09382463844971749,True,0.0,0.4376995703376123
+absolute 1 band (no information),29,-0.02376544901079564,True,0.0,0.0
+absolute 1 band (no information),30,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),31,0.01634177273581914,True,0.0,0.0
+absolute 1 band (no information),32,0.00876970154982129,True,0.0,0.0
+absolute 1 band (no information),33,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),34,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),35,-0.10180240310715517,True,0.0,0.015113216070511094
+absolute 1 band (no information),36,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),37,0.0046270437877582,True,0.0,0.0
+absolute 1 band (no information),38,0.038346579542725794,True,0.0,0.03304161218637883
+absolute 1 band (no information),39,-0.02376544901079564,True,0.0,0.0
+absolute 1 band (no information),40,0.00876970154982129,True,0.0,0.0
+absolute 1 band (no information),41,-0.010614032167213188,True,0.0,0.0
+absolute 1 band (no information),42,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),43,0.004464368034955469,True,0.0,0.0
+absolute 1 band (no information),44,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),45,0.004413054588385904,True,0.0,0.012703638632251938
+absolute 1 band (no information),46,-0.02376544901079564,True,0.0,0.0
+absolute 1 band (no information),47,-0.03024877549835781,True,0.0,0.009607185927621576
+absolute 1 band (no information),48,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),49,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),50,0.030764130766978322,True,0.0,0.0
+absolute 1 band (no information),51,0.008769701549821412,True,0.0,-0.0353155958039864
+absolute 1 band (no information),52,-0.028271953510265603,True,0.0,-0.03265961496383729
+absolute 1 band (no information),53,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),54,-0.02376544901079564,True,0.0,0.0
+absolute 1 band (no information),55,-0.02376544901079564,True,0.0,0.0
+absolute 1 band (no information),56,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),57,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),58,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),59,-0.02376544901079564,True,0.0,0.0
+absolute 1 band (no information),60,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),61,-0.02376544901079564,True,0.0,0.0
+absolute 1 band (no information),62,-0.02376544901079564,True,0.0,0.0
+absolute 1 band (no information),63,-0.02376544901079564,True,0.0,0.0
+absolute 1 band (no information),64,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),65,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),66,-0.02376544901079564,True,0.0,0.0
+absolute 1 band (no information),67,-0.06393532012119801,True,0.0,0.0
+absolute 1 band (no information),68,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),69,-0.06701220000749283,True,0.0,0.0
+absolute 1 band (no information),70,-0.06278392605897547,True,0.0,0.004971969675340682
+absolute 1 band (no information),71,-0.06278392605897547,True,0.0,0.004971969675340682
+absolute 1 band (no information),72,-0.06278392605897547,True,0.0,0.004971969675340682
+absolute 1 band (no information),73,-0.06278392605897547,True,0.0,0.004971969675340682
+absolute 1 band (no information),74,-0.02376544901079564,True,0.0,0.0
+absolute 1 band (no information),75,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),76,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),77,0.00876970154982129,True,0.0,0.0
+absolute 1 band (no information),78,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),79,-0.02376544901079564,True,0.0,0.0
+absolute 1 band (no information),80,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),81,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),82,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),83,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),84,-0.02376544901079564,True,0.0,0.0
+absolute 1 band (no information),85,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),86,-0.0964704706818147,True,0.0,0.0
+absolute 1 band (no information),87,-0.02376544901079564,True,0.0,0.0
+absolute 1 band (no information),88,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),89,0.004601239860534349,True,0.0,-0.0016573409958879615
+absolute 1 band (no information),90,-0.02376544901079564,True,0.0,0.0
+absolute 1 band (no information),91,0.008769701549821412,True,0.0,0.0
+absolute 1 band (no information),92,-0.0964704706818147,True,0.0,0.0
+absolute 1 band (no information),93,-0.02376544901079564,True,0.0,0.0
+absolute 1 band (no information),94,-0.02376544901079564,True,0.0,0.0
+absolute 1 band (no information),95,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),96,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),97,-0.06278392605897547,True,0.0,0.0
+absolute 1 band (no information),98,-0.02376544901079564,True,0.0,0.0
+absolute 1 band (no information),99,-0.02376544901079564,True,0.0,0.0
