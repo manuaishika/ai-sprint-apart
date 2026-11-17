@@ -5,7 +5,7 @@ Apart Research AI Collusion Research Sprint, 23–25 October 2026. Paper: [`repo
 
 ![setup](results/figures/setup.png)
 
-Two pricing agents compete in a repeated market. We control what each agent can see of its rival's price (exact, rounded to higher/lower, noisy, delayed, or hidden), and ask four questions:
+Two pricing agents compete in a repeated market. We control what each agent can see of its rival's price (exact, banded, relative to its own price, noisy, delayed, or hidden), and ask four questions:
 
 1. **Which restriction breaks collusion?** Rounding to one bit barely helps; noise and a one-period delay roughly halve it. (Sprint questions 1.5 and 3.2.)
 2. **Does collusion survive swapping an agent?** Not across partners, but a new entrant re-learns it. (Question 1.2.)

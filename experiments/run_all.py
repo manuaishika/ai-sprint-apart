@@ -105,16 +105,23 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--quick", action="store_true")
     ap.add_argument("--procs", type=int, default=os.cpu_count())
+    ap.add_argument("--only", choices=["interventions", "swaps", "detection"], default=None)
+    ap.add_argument("--detection-seeds", type=int, default=1000,
+                    help="sessions per detection condition (matched-pair analysis scales with this)")
     a = ap.parse_args()
     seeds = 6 if a.quick else 100
+    dseeds = 12 if a.quick else a.detection_seeds
     os.makedirs(OUT, exist_ok=True)
 
-    print("E1/E2 interventions ...", flush=True)
-    sweep(intervention_configs(), seeds, a.procs).to_csv(f"{OUT}/interventions.csv", index=False)
-    print("E3 swaps ...", flush=True)
-    swap_experiment(seeds, a.procs).to_csv(f"{OUT}/swaps.csv", index=False)
-    print("E4 detection ...", flush=True)
-    sweep(detection_configs(), 2 * seeds, a.procs).to_csv(f"{OUT}/detection.csv", index=False)
+    if a.only in (None, "interventions"):
+        print("E1/E2 interventions ...", flush=True)
+        sweep(intervention_configs(), seeds, a.procs).to_csv(f"{OUT}/interventions.csv", index=False)
+    if a.only in (None, "swaps"):
+        print("E3 swaps ...", flush=True)
+        swap_experiment(seeds, a.procs).to_csv(f"{OUT}/swaps.csv", index=False)
+    if a.only in (None, "detection"):
+        print("E4 detection ...", flush=True)
+        sweep(detection_configs(), dseeds, a.procs).to_csv(f"{OUT}/detection.csv", index=False)
     print("done", flush=True)
 
 

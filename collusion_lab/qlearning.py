@@ -7,7 +7,10 @@ Interventions act on what agents *observe* or *do*:
   blind[i]   agent i sees only its own last price (no rival information)
   eps[i]     each rival price agent i observes is replaced by a uniform random
              grid price with probability eps (observation noise)
-  coarsen    rival prices are observed only up to `coarsen` buckets
+  coarsen    k in 1..m: the rival's price is observed only as one of k equal bands of the
+             price grid (an ABSOLUTE signal: "is it in the upper or lower half?").
+             -2: RELATIVE, 2 values: is the rival's price >= my own last price?
+             -3: RELATIVE, 3 values: lower than / equal to / higher than my own last price
   delay      rival prices are observed `delay` periods late
   jitter     with probability `jitter` each executed price is replaced by a
              uniform random grid price (mandated price randomisation)
@@ -20,10 +23,14 @@ from numba import njit
 
 
 @njit(cache=True)
-def _observe(true_idx, eps, coarsen, m, u, r):
+def _observe(true_idx, own_idx, eps, coarsen, m, u, r):
     o = true_idx
     if u < eps:
         o = r
+    if coarsen == -2:
+        return 1 if o >= own_idx else 0
+    if coarsen == -3:
+        return 0 if o < own_idx else (1 if o == own_idx else 2)
     if coarsen < m:
         o = (o * coarsen) // m
     return o
@@ -44,7 +51,7 @@ def _states(hist, t, H, n, m, blind, eps, coarsen, delay, out):
             elif blind[i]:
                 v = 0
             else:
-                v = _observe(hist[riv_slot, j], eps[i], coarsen, m, u, r)
+                v = _observe(hist[riv_slot, j], hist[own_slot, i], eps[i], coarsen, m, u, r)
             s = s * m + v
         out[i] = s
 

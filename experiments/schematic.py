@@ -45,7 +45,7 @@ def main():
     # observation filter
     box(ax, 3.05, 0.95, 4.45, 2.55, ORANGE, fill="#fff5ef")
     text(ax, 3.75, 2.27, "Intervention", 9, INK, "semibold")
-    text(ax, 3.75, 1.6, "what each agent sees\nof its rival's price:\nexact · higher/lower\n"
+    text(ax, 3.75, 1.6, "what each agent sees\nof its rival's price:\nexact · banded · relative\n"
          "noisy · delayed\nhidden", 7.4)
 
     # market

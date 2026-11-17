@@ -14,7 +14,7 @@ OUT = os.path.join(os.path.dirname(__file__), "..", "results", "robustness.csv")
 SETTINGS = {"slower exploration (β=4e-6, Calvano)": dict(beta=4e-6, T_max=6_000_000),
             "lower learning rate (α=0.1)": dict(alpha=0.10),
             "higher learning rate (α=0.25)": dict(alpha=0.25)}
-LEVERS = {"none": {}, "round to higher/lower": dict(coarsen=2), "20% noise": dict(eps=0.2),
+LEVERS = {"none": {}, "1 absolute bit (upper/lower half)": dict(coarsen=2), "20% noise": dict(eps=0.2),
           "1-period delay": dict(delay=1), "blind": dict(blind=True)}
 
 

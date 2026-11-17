@@ -5,7 +5,7 @@ state, what would the agent do if its rival undercut? No market interaction is n
 and observation noise does not blur the answer. We compare this with the black-box
 detectors from the detection study on the same sessions (same configs, same seeds).
 
-    python -m experiments.mind_vs_hands     # ~3 min on 4 cores -> results/mind_vs_hands.csv
+    python -m experiments.mind_vs_hands     # re-runs every detection session -> results/mind_vs_hands.csv
 """
 import os
 from dataclasses import replace
@@ -33,7 +33,7 @@ def read_policy(cfg, Q, hist, t, mk, PI):
     if cfg.blind:
         return dict(w_all=0.0, w_br=0.0)
     zeros = np.zeros(n)
-    path = play(PI, Q, hist, t, n, m, np.full(n, False), zeros, cfg.coarsen, 0, 0.0, 0.0, 200, -1, 0, 0)
+    path = play(PI, Q, hist, t, n, m, np.full(n, False), zeros, cfg.coarsen, cfg.delay, 0.0, 0.0, 200, -1, 0, 0)
     a = path[-1]
     unit = mk.p_mon - mk.p_nash
     w_all, w_br = [], []
@@ -65,16 +65,6 @@ def job(args):
     mk, PI, _ = tables(cfg.n, cfg.m)
     res, Q, hist, t = run_session(cfg, seed, audits=False, return_agents=True)
     return dict(label=cfg.label, seed=seed, delta_check=res["delta"], **read_policy(cfg, Q, hist, t, mk, PI))
-
-
-if __name__ == "__main__":
-    cfgs = [c for c in detection_configs() if c.label != "short_horizon"] + \
-           [c for c in detection_configs() if c.label == "short_horizon"]
-    jobs = [(c, s) for c in cfgs for s in range(200)]
-    with Pool(os.cpu_count()) as p:
-        pd.DataFrame(p.map(job, jobs, chunksize=4)).to_csv(OUT, index=False)
-    print("done")
-    figure_and_table()
 
 
 def figure_and_table():
@@ -131,3 +121,13 @@ def figure_and_table():
     t["AUC (95% CI)"] = t.apply(lambda r: f"{r.auc:.2f} ({r.lo:.2f}–{r.hi:.2f})", axis=1)
     print(t.pivot(index="detector", columns="scenario", values="AUC (95% CI)").to_markdown())
     print(df.groupby("label")[["w_br", "w_all", "probe_resp1"]].mean().round(2).to_markdown())
+
+
+if __name__ == "__main__":
+    n_seeds = int(pd.read_csv(os.path.join(os.path.dirname(OUT), "detection.csv")).groupby("label").size().min())
+    cfgs = detection_configs()
+    jobs = [(c, s) for c in cfgs for s in range(n_seeds)]
+    with Pool(os.cpu_count()) as p:
+        pd.DataFrame(p.map(job, jobs, chunksize=4)).to_csv(OUT, index=False)
+    print("done", n_seeds, "sessions per condition")
+    figure_and_table()

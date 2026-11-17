@@ -307,7 +307,7 @@ def rl_main_figure():
             lo.append(l), hi.append(h)
         ax.fill_between(g.bits, lo, hi, color=col, alpha=0.15, lw=0)
         ax.plot(g.bits, g.delta_mean, marker="o", color=col, label=name, mec="white", mew=0.8)
-    ax.annotate("1 bit (higher/lower)\nstill gives Δ = 0.75", xy=(1.0, 0.74), xytext=(2.15, 0.06), fontsize=7.5,
+    ax.annotate("1 bit (upper/lower half)\nstill gives Δ = 0.75", xy=(1.0, 0.74), xytext=(2.15, 0.06), fontsize=7.5,
                 color=INK2, arrowprops=dict(arrowstyle="-", color=MUTED, lw=0.7))
     ax.set_xlabel("bits the agent can see about the rival's price")
     ax.set_ylabel("collusion index Δ")
@@ -374,7 +374,7 @@ def summary_figure():
     fig, axes = plt.subplots(1, 3, figsize=(13, 3.8))
 
     ax = axes[0]
-    picks = [("baseline", "-", "no rule"), ("coarsen", "2 buckets", "rival price as high/low"),
+    picks = [("baseline", "-", "no rule"), ("coarsen", "2 buckets", "rival price: upper/lower half"),
              ("jitter", "p=0.05", "5% random prices"), ("delay", "1 periods", "1-period delay"),
              ("noise", "eps=0.2", "20% observation noise"), ("blind", "no rival info", "rivals hidden")]
     for i, (lab, dose, name) in enumerate(picks):
