@@ -24,8 +24,8 @@ def main():
     ax = axes[0, 0]
     base = iv[iv.label == "baseline"].delta
     sig = [("exact price", "3.9 bits", base),
-           ("relative: lower / equal / higher", "1.6 bits", rel[rel.signal.str.startswith("relative 3")].delta),
-           ("absolute: upper / lower half", "1 bit", rel[rel.signal.str.startswith("absolute 2")].delta),
+           ("relative: lower/equal/higher", "1.6 bits", rel[rel.signal.str.startswith("relative 3")].delta),
+           ("absolute: upper/lower half", "1 bit", rel[rel.signal.str.startswith("absolute 2")].delta),
            ("relative: rival ≥ mine?", "1 bit", rel[rel.signal.str.startswith("relative 2")].delta),
            ("nothing", "0 bits", rel[rel.signal.str.startswith("absolute 1")].delta)]
     rows = []
@@ -35,7 +35,7 @@ def main():
         ax.barh(i, m, color=ORANGE if "≥" in name else BLUE, height=0.62)
         ax.plot([lo, hi], [i, i], color=INK2, lw=0.9)
         ax.text(max(hi, m) + 0.03, i, f"{m:.2f}", va="center", fontsize=7.5, color=INK2)
-    ax.set_yticks(range(len(sig)), [f"{s[0]}  ({s[1]})" for s in sig], fontsize=7.5)
+    ax.set_yticks(range(len(sig)), [f"{s[0]}\n{s[1]}" for s in sig], fontsize=7.5)
     ax.invert_yaxis()
     ax.set_xlim(-0.05, 1.0)
     ax.set_xlabel("collusion index Δ")
@@ -58,15 +58,17 @@ def main():
                 xs.append(d), ys.append(m), lo.append(l), hi.append(h)
         ax.fill_between(xs, lo, hi, color=col, alpha=0.15, lw=0)
         ax.plot(xs, ys, marker="o", color=col, label=lab, mec="white", mew=0.8)
+    shares = []
     for d in ds:
         share = s[s.delay == d].learned.mean()
-        ax.text(d, 0.96, f"{share:.0%}", ha="center", fontsize=7.5, color=BLUE)
+        shares.append(f"{share:.0%}")
         rows.append({"delay": d, "share_learned": f"{share:.0%}", "delta_all": f"{s[s.delay == d].delta.mean():.2f}",
                      "intended": f"{s[s.delay == d].intended.mean():.2f}",
                      "corr(delta,intended)": f"{np.corrcoef(s[s.delay == d].delta, s[s.delay == d].intended)[0, 1]:.2f}"})
-    ax.text(ds[-1] + 0.15, 0.96, "learned", fontsize=7, color=BLUE, va="center")
+    ax.text(0.98, 0.97, "share that learned to retaliate:\n" + " → ".join(shares), transform=ax.transAxes,
+            ha="right", va="top", fontsize=7.5, color=BLUE)
     ax.set_xticks(ds)
-    ax.set_ylim(0, 1.05)
+    ax.set_ylim(0, 1.0)
     ax.set_xlabel("observation delay (periods)")
     ax.set_ylabel("collusion index Δ")
     ax.legend(loc="lower left")
@@ -107,7 +109,7 @@ def main():
     ax.set_xlabel("training length (millions of periods)")
     ax.set_ylabel("collusion index Δ")
     ax.legend(loc="lower left")
-    ax.set_title("D   Δ settles even when no session converges")
+    ax.set_title("D   Δ is stable as training lengthens")
     out += ["## Does Δ settle when sessions never converge?\n", pd.DataFrame(rows).to_markdown(index=False) + "\n"]
 
     fig.tight_layout(w_pad=2.5, h_pad=2.2)
